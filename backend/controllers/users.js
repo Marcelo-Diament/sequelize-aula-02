@@ -55,14 +55,19 @@ const controller = {
     })
   },
   register: async (req, res, next) => {
-    const newUser = req.body
-    newUser.id_funcao = 1
-    newUser.id = users.length + 1
-    res.render('users', {
-      title: 'Usuário Cadastrado com Sucesso!',
-      subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
-      users: [...users, newUser]
-    })
+    const {
+      nome,
+      sobrenome,
+      email,
+      senha
+    } = req.body,
+      id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1,
+      user = await Usuario.create({ nome, sobrenome, email, senha, id_funcao })
+    if (user) {
+      res.redirect('/users')
+    } else {
+      res.status(500).send('Ops... Algo de errado não deu certo!')
+    }
   },
   update: async (req, res, next) => {
     const { id } = req.params,
@@ -79,8 +84,8 @@ const controller = {
   delete: async (req, res, next) => {
     const { id } = req.params,
       user = await Usuario.destroy({
-      where: { id }
-    })
+        where: { id }
+      })
     if (user) {
       res.redirect('/users')
     } else {
