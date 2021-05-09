@@ -40,10 +40,11 @@ const controller = {
   register: async (req, res, next) => {
     const newUser = req.body
     newUser.id_funcao = 1
+    newUser.id = users.length + 1
     res.render('users', {
       title: 'Usuário Cadastrado com Sucesso!',
       subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
-      users: [newUser, ...users]
+      users: [...users,newUser]
     })
   }
 }
