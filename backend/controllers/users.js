@@ -71,15 +71,19 @@ const controller = {
   },
   update: async (req, res, next) => {
     const { id } = req.params,
-      { nome, sobrenome, email } = req.body
-    users[id - 1].nome = nome
-    users[id - 1].sobrenome = sobrenome
-    users[id - 1].email = email
-    res.render('users', {
-      title: 'Usuário Cadastrado com Sucesso!',
-      subtitle: 'Retorno fictício, não editamos nenhum usuário',
-      users
-    })
+      {
+        nome,
+        sobrenome,
+        email,
+        senha
+      } = req.body,
+      id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1,
+      user = await Usuario.update({ nome, sobrenome, email, senha, id_funcao }, { where: { id } })
+    if (user) {
+      res.redirect('/users')
+    } else {
+      res.status(500).send('Ops... Algo de errado não deu certo!')
+    }
   },
   delete: async (req, res, next) => {
     const { id } = req.params,
