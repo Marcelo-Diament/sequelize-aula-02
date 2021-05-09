@@ -544,6 +544,7 @@ Já vamos incluir a abertura da tag `body` também.
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title><%= title %> | Sequelize #02</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
@@ -567,7 +568,7 @@ No `footer` usaremos um texto fixo acompanhado do símbolo HTML de _copyright_ e
 
 ``` ejs
 <footer class="footer">
-  <p class="footer__copy">Sequelize #01 - Raw Queries &copy; | <%= new Date().getFullYear() %></p>
+  <p class="footer__copy">Sequelize #02 - Raw Queries &copy; | <%= new Date().getFullYear() %></p>
 </footer>
 </body>
 
