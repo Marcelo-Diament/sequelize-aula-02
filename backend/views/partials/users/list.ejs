@@ -8,17 +8,36 @@
         <th>Email</th>
         <th>Senha</th>
         <th>Função</th>
+        <th>Ver</th>
+        <th>Editar</th>
+        <th>Excluir</th>
       </tr>
     </thead>
     <tbody>
       <% for(let user of users) { %>
       <tr id="user<%= user.id %>" class="user">
-        <td class="user__id"><%= user.id %></td>
-        <td class="user__name"><%= user.nome %></td>
-        <td class="user__lastname"><%= user.sobrenome %></td>
-        <td class="user__email"><%= user.email %></td>
-        <td class="user__pass"><%= user.senha %></td>
-        <td class="user__function"><%= user.id_funcao === 1 ? 'Admin' : 'Usuário Final' %></td>
+        <td class="user__id" data-title="ID"><%=user.id%></td>
+        <td class="user__name" data-title="Nome"><%= user.nome %></td>
+        <td class="user__lastname" data-title="Sobrenome"><%= user.sobrenome %></td>
+        <td class="user__email" data-title="Email"><%= user.email %></td>
+        <td class="user__pass" data-title="Senha"><%= user.senha %></td>
+        <td class="user__function" data-title="Função"><%= user.id_funcao === 1 ? 'Admin' : 'Usuário Final' %></td>
+        <td class="user__see">
+          <form action="/users/<%= user.id %>" method="GET">
+            <button class="user__see--btn">Ver</button>
+          </form>
+        </td>
+        <td class="user__edit">
+          <form action="/users/<%= user.id %>" method="GET">
+            <input type="hidden" name="edit" value="edit">
+            <button class="user__edit--btn">Editar</button>
+          </form>
+        </td>
+        <td class="user__delete">
+          <form action="/users/<%= user.id %>/delete" method="POST">
+            <button class="user__delete--btn">Excluir</button>
+          </form>
+        </td>
       </tr>
       <% } %>
     </tbody>

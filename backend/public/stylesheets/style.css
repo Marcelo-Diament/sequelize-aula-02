@@ -1,9 +1,11 @@
 :root {
+  --amarelo: #ffc400;
   --azul: #00B7FF;
   --branco: #fff;
   --chumbo: #3e3e3e;
   --cinza: #eee;
   --preto: #000;
+  --vermelho: #ff0055;
 }
 
 body {
@@ -95,14 +97,87 @@ main {
   margin: 24px auto;
 }
 
+.users__table th,
+.users__table td {
+  padding: 6px 12px;
+}
+
+.users__table td {
+  display: block;
+}
+
+.users__table td:not(:nth-child(n+7))::before {
+  content: attr(data-title) ": ";
+  font-weight: bolder;
+}
+
 .users__table thead {
   background-color: var(--azul);
   color: var(--branco);
 }
 
-.users__table th,
-.users__table td {
+.users__table thead tr th:first-child {
+  color: transparent;
+  font-size: 0;
+}
+
+.users__table thead tr th:first-child::before {
+  color: var(--branco);
+  content: 'Usuários';
+  font-size: 16px;
+}
+
+.users__table thead tr th:not(:first-child) {
+  display: none;
+}
+
+.users__table tbody tr td:last-child {
+  border-bottom: 1px solid var(--cinza);
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+}
+
+.users__table [class*="--btn"] {
+  border: none;
+  display: inline-block;
+  font-weight: bolder;
+  text-align: center;
+  margin: auto;
   padding: 6px 12px;
+}
+
+.users__table [class*="--btn"]:hover {
+  cursor: pointer;
+}
+
+.users__table .user__see--btn {
+  background-color: var(--azul);
+  color: var(--branco);
+}
+
+.users__table .user__see--btn:hover {
+  background-color: var(--chumbo);
+  color: var(--azul);
+}
+
+.users__table .user__edit--btn {
+  background-color: var(--amarelo);
+  color: var(--chumbo);
+}
+
+.users__table .user__edit--btn:hover {
+  background-color: var(--chumbo);
+  color: var(--amarelo);
+}
+
+.users__table .user__delete--btn {
+  background-color: var(--vermelho);
+  color: var(--branco);
+}
+
+.users__table .user__delete--btn:hover {
+  background-color: var(--chumbo);
+  color: var(--vermelho);
 }
 
 .register-user {
@@ -135,6 +210,8 @@ main {
 }
 
 .register-user .form__input-container input {
+  display: block;
+  max-width: calc(100vw - 64px);
   padding: 4px 8px;
   width: -webkit-fill-available;
 }
@@ -160,4 +237,34 @@ main {
   background-color: var(--chumbo);
   color: var(--branco);
   cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+
+  .users__table td {
+    display: table-cell;
+  }
+
+  .users__table td:not(:nth-child(n+7))::before {
+    content: none;
+  }
+
+  .users__table thead tr th:first-child {
+    color: var(--branco);
+    font-size: initial;
+  }
+
+  .users__table thead tr th:first-child::before {
+    content: none;
+  }
+
+  .users__table thead tr th:not(:first-child) {
+    display: table-cell;
+  }
+
+  .users__table tbody tr td:last-child {
+    border-bottom: none;
+    margin-bottom: auto;
+    padding-bottom: 6px;
+  }
 }
