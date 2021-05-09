@@ -1,4 +1,6 @@
-const { Usuario } = require('../models')
+const Sequelize = require('sequelize'),
+  { Usuario } = require('../models'),
+  { Op } = Sequelize
 
 const controller = {
   list: async (req, res, next) => {
@@ -74,6 +76,24 @@ const controller = {
       res.redirect('/users')
     } else {
       res.status(500).send('Ops... Algo de errado não deu certo!')
+    }
+  },
+  search: async (req, res, next) => {
+    const { searchParam, searchValue } = req.params,
+      whereClause = {}
+    whereClause[searchParam] = { [Op.like]: `%${searchValue}%` }
+    const users = await Usuario.findAll({ where: whereClause })
+      .catch(function (err) {
+        res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
+      })
+    if (users) {
+      res.render('users', {
+        title: 'Página de Usuários',
+        subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+        users
+      })
+    } else {
+      res.status(500).send(`Ops... houve algum erro em nossa busca`)
     }
   }
 }
