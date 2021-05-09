@@ -604,6 +604,9 @@ E para nossa _homepage_ não ficar tão sem graça assim, vamos incrementar um p
     <h3 class="main-section__subtitle"><%= subtitle %></h3>
     <p class="main-section__description">Nesse repositório criaremos um projeto simples, onde poderemos criar, consultar, editar e excluir usuários a partir de um banco de dados MySQL.</p>
     <p class="main-section__description">O intuito é entendermos como conectar o backend (node.js) a um banco de dados, realizar o CRUD (Create, Read, Update e Delete) através do Sequelize e utilizarmos queries SQL baseadas em modelos para executarmos as ações (Model Queries).</p>
+    <div class="cta">
+      <a href="/users" rel="next" target="_self" title="Ver listagem de usuários" class="cta__btn">Ver Lista de Usuários</a>
+    </div>
   </section>
 </main>
 <%- include('partials/footer') %>
@@ -672,6 +675,23 @@ main {
 .main-section__description {
     color: var(--chumbo);
     font-size: 16px;
+}
+
+.cta__btn {
+    background-color: var(--azul);
+    border: none;
+    color: var(--branco);
+    display: inline-block;
+    font-weight: bolder;
+    text-align: center;
+    margin: auto;
+    padding: 6px 12px;
+}
+
+.cta__btn:hover {
+    background-color: var(--chumbo);
+    color: var(--azul);
+    cursor: pointer;
 }
 ```
 
@@ -973,14 +993,14 @@ Para simularmos a adição do novo usuário, vamos incluir mais um método no _c
 
 ``` js
 register: async (req, res, next) => {
-  const newUser = req.body
-  newUser.id_funcao = 1
-  newUser.id = users.length + 1
-  res.render('users', {
-    title: 'Usuário Cadastrado com Sucesso!',
-    subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
-    users: [...users,newUser]
-  })
+    const newUser = req.body
+    newUser.id_funcao = 1
+    newUser.id = users.length + 1
+    res.render('users', {
+        title: 'Usuário Cadastrado com Sucesso!',
+        subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
+        users: [...users, newUser]
+    })
 }
 ```
 
@@ -997,37 +1017,37 @@ E vamos atualizar o estilo do nosso _header_.
 ``` css
 .header,
 .footer {
-  background-color: var(--azul);
-  color: var(--branco);
-  margin: 0;
-  max-height: 76px;
-  min-height: 40px;
-  padding: 16px;
-  text-align: center;
-  width: -webkit-fill-available;
+    background-color: var(--azul);
+    color: var(--branco);
+    margin: 0;
+    max-height: 76px;
+    min-height: 40px;
+    padding: 16px;
+    text-align: center;
+    width: -webkit-fill-available;
 }
 
 .header {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header__title {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .header__nav a {
-  color: var(--branco);
-  font-weight: bolder;
+    color: var(--branco);
+    font-weight: bolder;
 }
 
 .header__nav a:not(:last-child)::after {
-  content: ' | ';
+    content: ' | ';
 }
 
 .footer__title {
-  font-size: 14px;
-  font-weight: bolder;
+    font-size: 14px;
+    font-weight: bolder;
 }
 ```
