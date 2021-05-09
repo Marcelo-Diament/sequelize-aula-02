@@ -1340,9 +1340,35 @@ update: async (req, res, next) => {
 }
 ```
 
-
 **./backend/routes/users.js**
 
 ``` js
 router.post('/:id', controller.update)
+```
+
+## Exclusão de Usuário
+
+**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
+
+Vamos criar um _controller_ e uma rota para a exclusão de usuário.
+
+**./backend/controllers/users.js**
+
+``` js
+delete: async (req, res, next) => {
+    const {
+        id
+    } = req.params
+    res.render('users', {
+        title: 'Usuário Excluído com Sucesso!',
+        subtitle: 'Retorno fictício, não excluímos nenhum usuário',
+        users: users.filter(user => user.id != id)
+    })
+}
+```
+
+**./backend/routes/users.js**
+
+``` js
+router.post('/:id/delete', controller.delete)
 ```
