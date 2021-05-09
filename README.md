@@ -365,7 +365,7 @@ Estamos simplesmente declarando qual o caminho para o arquivo com os dados de co
 
 ## Página Inicial
 
-**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
+**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/project-base)
 
 Antes de entrarmos nas telas de usuários, vamos apenas ajustar nossa Homepage. Dessa forma, já faremos uma revisão breve sobre os principais conceitos do Express, MVC (no caso apenas o V - View e o C - Controller) e EJS (template engine). Lembrando que grande parte do trabalho já foi feita pelo Express Generator.
 
@@ -504,3 +504,167 @@ E, para finalizarmos, vamos atualizar nossa _view_ `index` (em `./backend/views/
 Com isso finalizamos nossa página inicial!
 
 Sim, está super simples - mas a ideia é partirmos logo para o Sequelize, e não criarmos um front bonito para a Homepage.
+
+## Templates Parciais
+
+**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/project-base)
+
+Um último passo antes de entrarmos na parte de usuários é isolarmos as _tags_ HTML `head` , `header` e `footer` como _templates_ parciais (ou _subtemplates_). Mas... por quê?
+
+Como essas 3 _tags_ sempre se repetem, isolarmos elas e importarmos em cada _template_ faz muito mais sentido. Assim, evitamos códigos duplicados e só precisamos atualizar um trecho quando houver algum tipo de alteração.
+
+São pouquíssimos passos, quase que um `Control + X` / `Control + V` .
+
+### Pasta partials
+
+O primeiro passo é criarmos a pasta `./backend/views/partials` (partindo já de `./backend` ):
+
+``` sh
+cd views && mkdir partials
+```
+
+Dentro dessa pasta criaremos os 3 arquivos:
+
+``` sh
+cd partials && touch head.ejs header.ejs footer.ejs
+```
+
+### Head, Header e Footer
+
+Agora tudo o que temos que fazer é recortar cada trecho e colar no respectivo _subtemplate_. Mas... já que vamos mexer nisso, já vamos adicionar algumas classes (respeitando o padrão [BEM](http://getbem.com/naming/), onde organizamos os seletores por Bloco, Elemento e Modificador) para darmos um 'talento' nesse estilo.
+
+Lembre-se de que não há um `header` nem um `footer` definido ainda, então vamos criar algo bem simples.
+
+**./backend/views/partials/head.ejs**
+
+Já vamos incluir a abertura da tag `body` também.
+
+``` ejs
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %> | Sequelize #01</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+```
+
+**./backend/views/partials/header.ejs**
+
+Vamos usar um texto fixo como `h1` em nosso `header` .
+
+``` ejs
+<header class="header">
+  <h1 class="header__title">Sequelize #01 | Raw Queries</h1>
+</header>
+```
+
+**./backend/views/partials/footer.ejs**
+
+No `footer` usaremos um texto fixo acompanhado do símbolo HTML de _copyright_ e do ano atual. Repare que estamos usando JS puro dentro da sintaxe de renderização do EJS. E fechamos o `body` .
+
+``` ejs
+<footer class="footer">
+  <p class="footer__copy">Sequelize #01 - Raw Queries &copy; | <%= new Date().getFullYear() %></p>
+</footer>
+</body>
+
+</html>
+```
+
+### Incluindo os Templates Parciais
+
+Agora que temos nossos templates parciais prontos, precisamos inclui-los na _view_ `index` . Para isso usaremos a seguinte sintaxe: `<%- include('caminho-do-arquivo/a-partir-da-view-atual') %>` :
+
+``` ejs
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<h1><%= title %></h1>
+<p><%= subtitle %></p>
+<%- include('partials/footer') %>
+```
+
+E para nossa _homepage_ não ficar tão sem graça assim, vamos incrementar um pouquinho mais.
+
+``` ejs
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<main>
+  <section class="main-section">
+    <h2 class="main-section__title"><%= title %></h2>
+    <h3 class="main-section__subtitle"><%= subtitle %></h3>
+    <p class="main-section__description">Nesse repositório criaremos um projeto simples, onde poderemos criar, consultar, editar e excluir usuários a partir de um banco de dados MySQL.</p>
+    <p class="main-section__description">O intuito é entendermos como conectar o backend (node.js) a um banco de dados, realizar o CRUD (Create, Read, Update e Delete) através do Sequelize e utilizarmos queries SQL puras para executarmos as ações (Raw Queries).</p>
+    <p class="main-section__description">Embora o Sequelize tenha outras features mais bacanas, como usar os métodos do Sequelize e Models, iniciaremos pelo básico.</p>
+  </section>
+</main>
+<%- include('partials/footer') %>
+```
+
+### Atualizando o Estilo
+
+E pra finalizar essa _branch_, vamos atualizar o estilo geral das nossas páginas. O arquivo responsável pelo estilo é o `./backend/public/stylesheets/style.css` . Vamos criar algumas variáveis e aplicar um estilo simples usando as classes que já criamos. Ficará assim:
+
+``` css
+:root {
+    --azul: #00B7FF;
+    --branco: #fff;
+    --chumbo: #3e3e3e;
+    --cinza: #eee;
+    --preto: #000;
+}
+
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: var(--azul);
+    text-decoration: none;
+}
+
+.header,
+.footer {
+    background-color: var(--azul);
+    color: var(--branco);
+    margin: 0;
+    max-height: 76px;
+    min-height: 40px;
+    padding: 16px;
+    text-align: center;
+    width: -webkit-fill-available;
+}
+
+.header__title {
+    font-size: 16px;
+}
+
+.footer__title {
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+main {
+    min-height: calc(100vh - 180px);
+    padding: 16px;
+}
+
+.main-section__title {
+    font-size: 24px;
+}
+
+.main-section__subtitle {
+    color: var(--chumbo);
+    font-size: 20px;
+}
+
+.main-section__description {
+    color: var(--chumbo);
+    font-size: 16px;
+}
+```
