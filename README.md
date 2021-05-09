@@ -618,11 +618,13 @@ E pra finalizar essa _branch_, vamos atualizar o estilo geral das nossas página
 
 ``` css
 :root {
+    --amarelo: #ffc400;
     --azul: #00B7FF;
     --branco: #fff;
     --chumbo: #3e3e3e;
     --cinza: #eee;
     --preto: #000;
+    --vermelho: #ff0055;
 }
 
 body {
@@ -790,18 +792,37 @@ Dentro dessa `section` , teremos uma `table` e, dentro dela, uma `tr` (_table ro
             <th>Email</th>
             <th>Senha</th>
             <th>Função</th>
+            <th>Ver</th>
+            <th>Editar</th>
+            <th>Excluir</th>
           </tr>
         </thead>
         <tbody>
           <% for(let user of users) { %>
-            <tr id="user<%= user.id %>" class="user">
-              <td class="user__id"><%= user.id %></td>
-              <td class="user__name"><%= user.nome %></td>
-              <td class="user__lastname"><%= user.sobrenome %></td>
-              <td class="user__email"><%= user.email %></td>
-              <td class="user__pass"><%= user.senha %></td>
-              <td class="user__function"><%= user.id_funcao === 1 ? 'Admin' : 'Usuário Final' %></td>
-            </tr>
+          <tr id="user<%= user.id %>" class="user">
+            <td class="user__id" data-title="ID"><%=user.id%></td>
+            <td class="user__name" data-title="Nome"><%= user.nome %></td>
+            <td class="user__lastname" data-title="Sobrenome"><%= user.sobrenome %></td>
+            <td class="user__email" data-title="Email"><%= user.email %></td>
+            <td class="user__pass" data-title="Senha"><%= user.senha %></td>
+            <td class="user__function" data-title="Função"><%= user.id_funcao === 1 ? 'Admin' : 'Usuário Final' %></td>
+            <td class="user__see">
+              <form action="/users/<%= user.id %>" method="GET">
+                <button class="user__see--btn">Ver</button>
+              </form>
+            </td>
+            <td class="user__edit">
+              <form action="/users/<%= user.id %>" method="GET">
+                <input type="hidden" name="edit" value="edit">
+                <button class="user__edit--btn">Editar</button>
+              </form>
+            </td>
+            <td class="user__delete">
+              <form action="/users/<%= user.id %>/delete" method="POST">
+                <button class="user__delete--btn">Excluir</button>
+              </form>
+            </td>
+          </tr>
           <% } %>
         </tbody>
       </table>
@@ -853,17 +874,36 @@ Tudo o que precisamos fazer é mover o trecho referente à listagem de usuários
         <th>Email</th>
         <th>Senha</th>
         <th>Função</th>
+        <th>Ver</th>
+        <th>Editar</th>
+        <th>Excluir</th>
       </tr>
     </thead>
     <tbody>
       <% for(let user of users) { %>
       <tr id="user<%= user.id %>" class="user">
-        <td class="user__id"><%= user.id %></td>
-        <td class="user__name"><%= user.nome %></td>
-        <td class="user__lastname"><%= user.sobrenome %></td>
-        <td class="user__email"><%= user.email %></td>
-        <td class="user__pass"><%= user.senha %></td>
-        <td class="user__function"><%= user.id_funcao === 1 ? 'Admin' : 'Usuário Final' %></td>
+        <td class="user__id" data-title="ID"><%=user.id%></td>
+        <td class="user__name" data-title="Nome"><%= user.nome %></td>
+        <td class="user__lastname" data-title="Sobrenome"><%= user.sobrenome %></td>
+        <td class="user__email" data-title="Email"><%= user.email %></td>
+        <td class="user__pass" data-title="Senha"><%= user.senha %></td>
+        <td class="user__function" data-title="Função"><%= user.id_funcao === 1 ? 'Admin' : 'Usuário Final' %></td>
+        <td class="user__see">
+          <form action="/users/<%= user.id %>" method="GET">
+            <button class="user__see--btn">Ver</button>
+          </form>
+        </td>
+        <td class="user__edit">
+          <form action="/users/<%= user.id %>" method="GET">
+            <input type="hidden" name="edit" value="edit">
+            <button class="user__edit--btn">Editar</button>
+          </form>
+        </td>
+        <td class="user__delete">
+          <form action="/users/<%= user.id %>/delete" method="POST">
+            <button class="user__delete--btn">Excluir</button>
+          </form>
+        </td>
       </tr>
       <% } %>
     </tbody>
@@ -881,14 +921,117 @@ E precisamos estilizar essa nossa tabela, concorda? Podemos acrescentar o seguin
     margin: 24px auto;
 }
 
+.users__table th,
+.users__table td {
+    padding: 6px 12px;
+}
+
+.users__table td {
+    display: block;
+}
+
+.users__table td:not(:nth-child(n+7))::before {
+    content: attr(data-title) ": ";
+    font-weight: bolder;
+}
+
 .users__table thead {
     background-color: var(--azul);
     color: var(--branco);
 }
 
-.users__table th,
-.users__table td {
+.users__table thead tr th:first-child {
+    color: transparent;
+    font-size: 0;
+}
+
+.users__table thead tr th:first-child::before {
+    color: var(--branco);
+    content: 'Usuários';
+    font-size: 16px;
+}
+
+.users__table thead tr th:not(:first-child) {
+    display: none;
+}
+
+.users__table tbody tr td:last-child {
+    border-bottom: 1px solid var(--cinza);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+}
+
+.users__table [class*="--btn"] {
+    border: none;
+    display: inline-block;
+    font-weight: bolder;
+    text-align: center;
+    margin: auto;
     padding: 6px 12px;
+}
+
+.users__table [class*="--btn"]:hover {
+    cursor: pointer;
+}
+
+.users__table .user__see--btn {
+    background-color: var(--azul);
+    color: var(--branco);
+}
+
+.users__table .user__see--btn:hover {
+    background-color: var(--chumbo);
+    color: var(--azul);
+}
+
+.users__table .user__edit--btn {
+    background-color: var(--amarelo);
+    color: var(--chumbo);
+}
+
+.users__table .user__edit--btn:hover {
+    background-color: var(--chumbo);
+    color: var(--amarelo);
+}
+
+.users__table .user__delete--btn {
+    background-color: var(--vermelho);
+    color: var(--branco);
+}
+
+.users__table .user__delete--btn:hover {
+    background-color: var(--chumbo);
+    color: var(--vermelho);
+}
+
+@media screen and (min-width: 768px) {
+
+    .users__table td {
+        display: table-cell;
+    }
+
+    .users__table td:not(:nth-child(n+7))::before {
+        content: none;
+    }
+
+    .users__table thead tr th:first-child {
+        color: var(--branco);
+        font-size: initial;
+    }
+
+    .users__table thead tr th:first-child::before {
+        content: none;
+    }
+
+    .users__table thead tr th:not(:first-child) {
+        display: table-cell;
+    }
+
+    .users__table tbody tr td:last-child {
+        border-bottom: none;
+        margin-bottom: auto;
+        padding-bottom: 6px;
+    }
 }
 ```
 
@@ -1010,44 +1153,67 @@ register: async (req, res, next) => {
 router.post('/', controller.register)
 ```
 
-E vamos atualizar o estilo do nosso _header_.
+E vamos atualizar o estilo também.
 
 **./backend/public/stylesheets/style.css**
 
 ``` css
-.header,
-.footer {
-    background-color: var(--azul);
-    color: var(--branco);
-    margin: 0;
-    max-height: 76px;
-    min-height: 40px;
-    padding: 16px;
-    text-align: center;
+.register-user {
+    display: block;
+    margin: 16px auto;
+}
+
+.register-user__title {
+    font-size: 24px;
+}
+
+.register-user__subtitle {
+    color: var(--chumbo);
+    font-size: 20px;
+}
+
+.register-user .form {
+    margin: 24px auto;
+    min-width: max-content;
+    width: 25vw;
+}
+
+.register-user .form__input-container {
+    display: block;
+    margin: 16px auto;
+}
+
+.register-user .form__input-container label {
+    color: var(--chumbo);
+}
+
+.register-user .form__input-container input {
+    display: block;
+    max-width: calc(100vw - 64px);
+    padding: 4px 8px;
     width: -webkit-fill-available;
 }
 
-.header {
-    align-items: center;
+.form__btns {
     display: flex;
-    justify-content: space-between;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
 }
 
-.header__title {
-    font-size: 16px;
-}
-
-.header__nav a {
+.form__btns button {
+    background-color: var(--azul);
+    border: none;
     color: var(--branco);
+    display: inline-block;
     font-weight: bolder;
+    text-align: center;
+    margin: 8px 0;
+    padding: 8px 16px;
 }
 
-.header__nav a:not(:last-child)::after {
-    content: ' | ';
-}
-
-.footer__title {
-    font-size: 14px;
-    font-weight: bolder;
+.form__btns button:hover {
+    background-color: var(--chumbo);
+    color: var(--branco);
+    cursor: pointer;
 }
 ```
