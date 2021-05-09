@@ -356,8 +356,9 @@ Nesse arquivo, declararemos o seguinte trecho de código:
 const path = require('path')
 
 module.exports = {
-    'config': path.resolve('config', 'database.js')
+    'config': path.resolve('config', 'database.js'),
+    'models': path.resolve('models')
 }
 ```
 
-Estamos simplesmente declarando qual o caminho para o arquivo com os dados de conexão. O `path` nada mais faz do que unir as pastas do nosso caminho (como um `join` faria).
+Estamos simplesmente declarando qual o caminho para o arquivo com os dados de conexão e para os modelos que criaremos. O `path` nada mais faz do que unir as pastas do nosso caminho (como um `join` faria).
