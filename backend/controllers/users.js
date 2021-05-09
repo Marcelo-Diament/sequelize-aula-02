@@ -21,7 +21,8 @@ const users = [{
 }]
 
 const controller = {
-  list: (req, res, next) => {
+  list: async (req, res, next) => {
+    const users = await Usuario.findAll()
     res.render('users', {
       title: 'Página de Usuários',
       subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
