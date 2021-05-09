@@ -544,7 +544,7 @@ Já vamos incluir a abertura da tag `body` também.
 <html>
 
 <head>
-  <title><%= title %> | Sequelize #01</title>
+  <title><%= title %> | Sequelize #02</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
@@ -557,7 +557,7 @@ Vamos usar um texto fixo como `h1` em nosso `header` .
 
 ``` ejs
 <header class="header">
-  <h1 class="header__title">Sequelize #01 | Raw Queries</h1>
+  <h1 class="header__title">Sequelize #02 | Models e Queries</h1>
 </header>
 ```
 
