@@ -1346,6 +1346,53 @@ update: async (req, res, next) => {
 router.post('/:id', controller.update)
 ```
 
+**./public/stylesheets/style.css**
+
+``` css
+.register-user,
+.edit-user {
+    display: block;
+    margin: 16px auto;
+}
+
+.register-user__title,
+.edit-user__title {
+    font-size: 24px;
+}
+
+.register-user__subtitle,
+.edit-user__subtitle {
+    color: var(--chumbo);
+    font-size: 20px;
+}
+
+.register-user .form,
+.edit-user .form {
+    margin: 24px auto;
+    min-width: max-content;
+    width: 25vw;
+}
+
+.register-user .form__input-container,
+.edit-user .form__input-container {
+    display: block;
+    margin: 16px auto;
+}
+
+.register-user .form__input-container label,
+.edit-user .form__input-container label {
+    color: var(--chumbo);
+}
+
+.register-user .form__input-container input,
+.edit-user .form__input-container input {
+    display: block;
+    max-width: calc(100vw - 64px);
+    padding: 4px 8px;
+    width: -webkit-fill-available;
+}
+```
+
 ## Exclusão de Usuário
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
