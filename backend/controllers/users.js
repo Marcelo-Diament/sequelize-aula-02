@@ -77,12 +77,15 @@ const controller = {
     })
   },
   delete: async (req, res, next) => {
-    const { id } = req.params
-    res.render('users', {
-      title: 'Usuário Excluído com Sucesso!',
-      subtitle: 'Retorno fictício, não excluímos nenhum usuário',
-      users: users.filter(user => user.id != id)
+    const { id } = req.params,
+      user = await Usuario.destroy({
+      where: { id }
     })
+    if (user) {
+      res.redirect('/users')
+    } else {
+      res.status(500).send('Ops... Algo de errado não deu certo!')
+    }
   }
 }
 
