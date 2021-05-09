@@ -30,7 +30,13 @@ const controller = {
       subtitle: `Confira a seguir o usuário de id ${id}`,
       users: [users[id - 1]]
     })
-  }
+  },
+  addUser: async (req, res, next) => {
+    res.render('addUser', {
+      title: 'Página de Registro de Usuário',
+      subtitle: 'Preencha o formulário e cadastre-o clicando em \'Adicionar Usuário\''
+    })
+  },
 }
 
 module.exports = controller
