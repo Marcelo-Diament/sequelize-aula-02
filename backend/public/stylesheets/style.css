@@ -30,8 +30,23 @@ a {
   width: -webkit-fill-available;
 }
 
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
 .header__title {
   font-size: 16px;
+}
+
+.header__nav a {
+  color: var(--branco);
+  font-weight: bolder;
+}
+
+.header__nav a:not(:last-child)::after {
+  content: ' | ';
 }
 
 .footer__title {
