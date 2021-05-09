@@ -459,7 +459,7 @@ const controller = {
         //Aqui estamos renderizando a view index e enviando as propriedades title e subtitle e seus respectivos valores
         res.render('index', {
             title: 'Página Inicial',
-            subtitle: 'Bem vindo à prática de Sequelize #01!'
+            subtitle: 'Bem vindo à prática de Sequelize #02!'
         });
     }
 }
