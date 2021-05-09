@@ -239,7 +239,7 @@ npm install express-generator -g
 npm install -g nodemon
 ```
 
-## Base do Projeto
+## v0.0.0 | Base do Projeto
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/project-base)
 
@@ -362,7 +362,7 @@ module.exports = {
 
 Estamos simplesmente declarando qual o caminho para o arquivo com os dados de conexão e para os modelos que criaremos. O `path` nada mais faz do que unir as pastas do nosso caminho (como um `join` faria).
 
-## Página Inicial
+### Página Inicial
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/project-base)
 
@@ -504,7 +504,7 @@ Com isso finalizamos nossa página inicial!
 
 Sim, está super simples - mas a ideia é partirmos logo para o Sequelize, e não criarmos um front bonito para a Homepage.
 
-## Templates Parciais
+### Templates Parciais
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/project-base)
 
@@ -726,7 +726,7 @@ main {
 }
 ```
 
-## Usuários
+### Usuários
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
 
@@ -1064,7 +1064,7 @@ E precisamos estilizar essa nossa tabela, concorda? Podemos acrescentar o seguin
 }
 ```
 
-## Usuário
+### Usuário
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
 
@@ -1093,7 +1093,7 @@ _No caso estamos forçando a entrega do usuário único como um array para poder
 router.get('/:id', controller.index)
 ```
 
-## Cadastro de Usuário
+### Cadastro de Usuário
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
 
@@ -1247,7 +1247,7 @@ E vamos atualizar o estilo também.
 }
 ```
 
-## Edição de Usuário
+### Edição de Usuário
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
 
@@ -1392,7 +1392,7 @@ router.post('/:id', controller.update)
 }
 ```
 
-## Exclusão de Usuário
+### Exclusão de Usuário
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
 
@@ -1425,7 +1425,7 @@ ___
 
 ___
 
-## Conexão com o Banco de Dados
+## v1.0.0 | Conexão com o Banco de Dados
 
 **Branch:** [feature/db-connection](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/db-connection)
 
@@ -1463,7 +1463,7 @@ module.exports = {
 }
 ```
 
-## Criação do Model Usuário
+## v1.1.0 | Criação do Model Usuário
 
 **Branch:** [feature/db-connection](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/db-connection)
 
@@ -1545,7 +1545,7 @@ const config = require('../config/database.js');
 
 Está feito! Agora podemos partir para a manipulação dos registros! =)
 
-## Listar Um Usuário (findOne)
+## v1.2.0 | Listar Um Usuário (findOne)
 
 **Branch:** [feature/list-single-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/list-single-user)
 
@@ -1589,7 +1589,7 @@ index: async (req, res, next) => {
 }
 ```
 
-## Listar Todos os Usuários (findAll)
+## v1.3.0 | Listar Todos os Usuários (findAll)
 
 **Branch:** [feature/list-all-users](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/list-all-users)
 
@@ -1608,7 +1608,7 @@ list: async (req, res, next) => {
 
 Perceba que novamente estamos usando o `async/await` . Isso pois não sabemos quanto tempo demorará para recebermos o retorno de nossa _query_.
 
-## Excluir um Usuário por seu ID (destroy)
+## v1.4.0 | Excluir um Usuário por seu ID (destroy)
 
 **Branch:** [feature/delete-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/delete-user)
 
@@ -1632,7 +1632,7 @@ delete: async (req, res, next) => {
 }
 ```
 
-## Adicionar um Usuário (create)
+## v1.5.0 | Adicionar um Usuário (create)
 
 **Branch:** [feature/create-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/create-user)
 
@@ -1668,7 +1668,7 @@ Vale ressaltar dois pontos:
 
 2. Estamos validando se o usuário é administrador ou não a partir do domínio do email (se possui `@diament.com.br`), mas há outras maneiras mais sofisticadas de realizarmos tal validação (por exemplo, no momento de um cadastro feito por um administrador).
 
-## Editar um Usuário (update)
+## v1.6.0 | Editar um Usuário (update)
 
 **Branch:** [feature/edit-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/edit-user)
 
@@ -1702,4 +1702,123 @@ update: async (req, res, next) => {
         res.status(500).send('Ops... Algo de errado não deu certo!')
     }
 }
+```
+
+## v1.6.1 | Limpando o Controller Users
+
+**Branch:** [feature/clean-controller](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/clean-controller)
+
+Vamos remover o _array_ `users` e as _consts_ `db` , `config` e `Sequelize` do nosso _controller_. O _controller_ limpo ficará assim:
+
+``` js
+const {
+    Usuario
+} = require('../models')
+
+const controller = {
+    list: async (req, res, next) => {
+        const users = await Usuario.findAll()
+        res.render('users', {
+            title: 'Página de Usuários',
+            subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+            users
+        })
+    },
+    index: async (req, res, next) => {
+        const {
+            id
+        } = req.params,
+            user = await Usuario.findOne({
+                where: {
+                    id
+                }
+            })
+        if (user) {
+            return req.query.edit === 'edit' ?
+                res.render('editUser', {
+                    title: `Página de Edição do Usuário ${user.nome} ${user.sobrenome}`,
+                    subtitle: `Confira a seguir o usuário #${id} | ${user.nome} ${user.sobrenome}`,
+                    user
+                }) :
+                res.render('users', {
+                    title: `Página de Visualização do Usuário ${user.nome} ${user.sobrenome}`,
+                    subtitle: `Confira a seguir o usuário #${id} | ${user.nome} ${user.sobrenome}`,
+                    users: [user]
+                })
+        } else {
+            res.status(500).send(`Ops... houve algum erro ao buscar pelo usuário de id ${id}`)
+        }
+    },
+    addUser: async (req, res, next) => {
+        res.render('addUser', {
+            title: 'Página de Registro de Usuário',
+            subtitle: 'Preencha o formulário e cadastre-o clicando em \'Adicionar Usuário\''
+        })
+    },
+    register: async (req, res, next) => {
+        const {
+            nome,
+            sobrenome,
+            email,
+            senha
+        } = req.body,
+            id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1,
+            user = await Usuario.create({
+                nome,
+                sobrenome,
+                email,
+                senha,
+                id_funcao
+            })
+        if (user) {
+            res.redirect('/users')
+        } else {
+            res.status(500).send('Ops... Algo de errado não deu certo!')
+        }
+    },
+    update: async (req, res, next) => {
+        const {
+            id
+        } = req.params, {
+                nome,
+                sobrenome,
+                email,
+                senha
+            } = req.body,
+            id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1,
+            user = await Usuario.update({
+                nome,
+                sobrenome,
+                email,
+                senha,
+                id_funcao
+            }, {
+                where: {
+                    id
+                }
+            })
+        if (user) {
+            res.redirect('/users')
+        } else {
+            res.status(500).send('Ops... Algo de errado não deu certo!')
+        }
+    },
+    delete: async (req, res, next) => {
+        const {
+            id
+        } = req.params,
+            user = await Usuario.destroy({
+                where: {
+                    id
+                }
+            })
+        if (user) {
+            res.redirect('/users')
+        } else {
+            res.status(500).send('Ops... Algo de errado não deu certo!')
+        }
+    }
+}
+
+module.exports = controller
 ```
