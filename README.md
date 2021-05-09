@@ -989,3 +989,45 @@ register: async (req, res, next) => {
 ``` js
 router.post('/', controller.register)
 ```
+
+E vamos atualizar o estilo do nosso _header_.
+
+**./backend/public/stylesheets/style.css**
+
+``` css
+.header,
+.footer {
+  background-color: var(--azul);
+  color: var(--branco);
+  margin: 0;
+  max-height: 76px;
+  min-height: 40px;
+  padding: 16px;
+  text-align: center;
+  width: -webkit-fill-available;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__title {
+  font-size: 16px;
+}
+
+.header__nav a {
+  color: var(--branco);
+  font-weight: bolder;
+}
+
+.header__nav a:not(:last-child)::after {
+  content: ' | ';
+}
+
+.footer__title {
+  font-size: 14px;
+  font-weight: bolder;
+}
+```
