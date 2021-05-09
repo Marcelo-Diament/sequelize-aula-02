@@ -1419,3 +1419,21 @@ delete: async (req, res, next) => {
 ``` js
 router.post('/:id/delete', controller.delete)
 ```
+
+___
+
+> Aqui começa de fato nossa prática! Então se preferir, baixe o zip da release 0.0.0 e comece a partir daqui
+
+___
+
+## Conexão com o Banco de Dados
+
+**Branch:** [feature/db-connection](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/db-connection)
+
+Em nosso _controller_ de usuários, basta adicionarmos o seguinte trecho (logo no início do arquivo):
+
+``` js
+const Sequelize = require('sequelize'),
+    config = require('../config/database'),
+    db = new Sequelize(config)
+```
