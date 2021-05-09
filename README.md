@@ -1606,4 +1606,28 @@ list: async (req, res, next) => {
 }
 ```
 
-Perceba que novamente estamos usando o `async/await`. Isso pois não sabemos quanto tempo demorará para recebermos o retorno de nossa _query_.
+Perceba que novamente estamos usando o `async/await` . Isso pois não sabemos quanto tempo demorará para recebermos o retorno de nossa _query_.
+
+## Excluir um Usuário por seu ID (destroy)
+
+**Branch:** [feature/delete-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/delete-user)
+
+Para excluir um usuário, tudo o que precisamos fazer é usar o _model query_ `destroy` no método `delete` do _controller_ de usuários - passando seu ID (não queremos aplicar um `DELETE` sem `WHERE` hehehe).
+
+``` js
+delete: async (req, res, next) => {
+    const {
+        id
+    } = req.params
+    const user = await Usuario.destroy({
+        where: {
+            id
+        }
+    })
+    if (user) {
+        res.redirect('/users')
+    } else {
+        res.status(500).send('Ops... Algo de errado não deu certo!')
+    }
+}
+```
