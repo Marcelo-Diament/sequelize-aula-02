@@ -37,6 +37,15 @@ const controller = {
       subtitle: 'Preencha o formulário e cadastre-o clicando em \'Adicionar Usuário\''
     })
   },
+  register: async (req, res, next) => {
+    const newUser = req.body
+    newUser.id_funcao = 1
+    res.render('users', {
+      title: 'Usuário Cadastrado com Sucesso!',
+      subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
+      users: [newUser, ...users]
+    })
+  }
 }
 
 module.exports = controller
