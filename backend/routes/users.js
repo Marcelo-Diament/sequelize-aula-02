@@ -4,6 +4,7 @@ const express = require('express'),
 
 router.get('/add', controller.addUser)
 router.get('/:id', controller.index)
+router.post('/:id', controller.update)
 router.get('/', controller.list)
 router.post('/', controller.register)
 

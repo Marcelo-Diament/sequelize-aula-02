@@ -25,11 +25,17 @@ const controller = {
   },
   index: (req, res, next) => {
     const { id } = req.params
-    res.render('users', {
-      title: 'Página de Usuário',
-      subtitle: `Confira a seguir o usuário de id ${id}`,
-      users: [users[id - 1]]
-    })
+    return req.query.edit === 'edit'
+      ? res.render('editUser', {
+        title: 'Página de Usuário',
+        subtitle: `Confira a seguir o usuário de id ${id}`,
+        user: users[id - 1]
+      })
+      : res.render('users', {
+        title: 'Página de Usuário',
+        subtitle: `Confira a seguir o usuário de id ${id}`,
+        users: [users[id - 1]]
+      })
   },
   addUser: async (req, res, next) => {
     res.render('addUser', {
@@ -44,7 +50,19 @@ const controller = {
     res.render('users', {
       title: 'Usuário Cadastrado com Sucesso!',
       subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
-      users: [...users,newUser]
+      users: [...users, newUser]
+    })
+  },
+  update: async (req, res, next) => {
+    const { id } = req.params,
+      { nome, sobrenome, email } = req.body
+    users[id - 1].nome = nome
+    users[id - 1].sobrenome = sobrenome
+    users[id - 1].email = email
+    res.render('users', {
+      title: 'Usuário Cadastrado com Sucesso!',
+      subtitle: 'Retorno fictício, não editamos nenhum usuário',
+      users
     })
   }
 }
