@@ -3,6 +3,7 @@ const express = require('express'),
   controller = require('../controllers/users')
 
 router.get('/add', controller.addUser)
+router.post('/:id/delete', controller.delete)
 router.get('/:id', controller.index)
 router.post('/:id', controller.update)
 router.get('/', controller.list)

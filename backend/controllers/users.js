@@ -64,6 +64,14 @@ const controller = {
       subtitle: 'Retorno fictício, não editamos nenhum usuário',
       users
     })
+  },
+  delete: async (req, res, next) => {
+    const { id } = req.params
+    res.render('users', {
+      title: 'Usuário Excluído com Sucesso!',
+      subtitle: 'Retorno fictício, não excluímos nenhum usuário',
+      users: users.filter(user => user.id != id)
+    })
   }
 }
 
