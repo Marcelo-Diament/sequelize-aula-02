@@ -1004,7 +1004,7 @@ E precisamos estilizar essa nossa tabela, concorda? Podemos acrescentar o seguin
     color: var(--vermelho);
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 984px) {
 
     .users__table td {
         display: table-cell;
