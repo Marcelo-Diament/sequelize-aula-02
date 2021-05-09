@@ -702,28 +702,30 @@ module.exports = router
 Nesse momento, se estiver com o servidor 'rodando', verá que um erro é acusado. Isso ocorre por que ainda não criamos nosso _controller_ `users` . Faremos isso agora mesmo! Vamos criar o arquivo `./backend/controllers/users.js` e defini-lo dessa maneira:
 
 ``` js
+const users = [{
+        id: 1,
+        nome: 'Fulano',
+        sobrenome: 'de Tal',
+        email: 'fulano@detal.com',
+        senha: 'Senha123',
+        id_funcao: 2
+    },
+    {
+        id: 2,
+        nome: 'Ciclano',
+        sobrenome: 'Tal Qual',
+        email: 'ciclano@talqual.com',
+        senha: 'Senha123',
+        id_funcao: 1
+    }
+]
+
 const controller = {
     list: (req, res, next) => {
         res.render('users', {
             title: 'Página de Usuários',
             subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
-            users: [{
-                    id: 1,
-                    nome: 'Fulano',
-                    sobrenome: 'de Tal',
-                    email: 'fulano@detal.com',
-                    senha: 'Senha123',
-                    id_funcao: 2
-                },
-                {
-                    id: 2,
-                    nome: 'Ciclano',
-                    sobrenome: 'Tal Qual',
-                    email: 'ciclano@talqual.com',
-                    senha: 'Senha123',
-                    id_funcao: 1
-                }
-            ]
+            users
         })
     }
 }
@@ -868,4 +870,31 @@ E precisamos estilizar essa nossa tabela, concorda? Podemos acrescentar o seguin
 .users__table td {
     padding: 6px 12px;
 }
+```
+
+## Usuário
+
+**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
+
+Vamos criar o contexto de leitura de um usuário único, incluindo uma rota específica que recebe seu ID e um método no _controller_ de usuários.
+
+**./backend/controllers/users.js**
+
+``` ejs
+index: (req, res, next) => {
+  const { id } = req.params
+  res.render('users', {
+    title: 'Página de Usuário',
+    subtitle: `Confira a seguir o usuário de id ${id}`,
+    users: [users[id - 1]]
+  })
+}
+```
+
+_No caso estamos forçando a entrega do usuário único como um array para podermos reaproveitar a view users._
+
+**./backend/routes/users.js**
+
+``` ejs
+router.get('/:id', controller.index)
 ```
