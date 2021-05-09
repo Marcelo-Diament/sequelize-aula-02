@@ -559,6 +559,12 @@ Vamos usar um texto fixo como `h1` em nosso `header` .
 ``` ejs
 <header class="header">
   <h1 class="header__title">Sequelize #02 | Models e Queries</h1>
+  <nav class="header__nav">
+    <a href="/" target="_self" rel="next" title="Acessar página iniciar">Início</a>
+    <a href="/users/add" target="_self" rel="next" title="Cadastrar usuário">Cadastro</a>
+    <a href="/users" target="_self" rel="next" title="Ver listagem de usuários">Usuários</a>
+    <a href="https://github.com/Marcelo-Diament/sequelize-aula-02" target="_blank" rel="author" title="Ver repositório">Repositório</a>
+  </nav>
 </header>
 ```
 
@@ -568,7 +574,7 @@ No `footer` usaremos um texto fixo acompanhado do símbolo HTML de _copyright_ e
 
 ``` ejs
 <footer class="footer">
-  <p class="footer__copy">Sequelize #02 - Raw Queries &copy; | <%= new Date().getFullYear() %></p>
+  <p class="footer__copy">Sequelize #02 - Models & Queries &copy; | <%= new Date().getFullYear() %></p>
 </footer>
 </body>
 
@@ -597,8 +603,7 @@ E para nossa _homepage_ não ficar tão sem graça assim, vamos incrementar um p
     <h2 class="main-section__title"><%= title %></h2>
     <h3 class="main-section__subtitle"><%= subtitle %></h3>
     <p class="main-section__description">Nesse repositório criaremos um projeto simples, onde poderemos criar, consultar, editar e excluir usuários a partir de um banco de dados MySQL.</p>
-    <p class="main-section__description">O intuito é entendermos como conectar o backend (node.js) a um banco de dados, realizar o CRUD (Create, Read, Update e Delete) através do Sequelize e utilizarmos queries SQL puras para executarmos as ações (Raw Queries).</p>
-    <p class="main-section__description">Embora o Sequelize tenha outras features mais bacanas, como usar os métodos do Sequelize e Models, iniciaremos pelo básico.</p>
+    <p class="main-section__description">O intuito é entendermos como conectar o backend (node.js) a um banco de dados, realizar o CRUD (Create, Read, Update e Delete) através do Sequelize e utilizarmos queries SQL baseadas em modelos para executarmos as ações (Model Queries).</p>
   </section>
 </main>
 <%- include('partials/footer') %>
