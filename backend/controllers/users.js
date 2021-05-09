@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize'),
   config = require('../config/database'),
-  db = new Sequelize(config)
+  db = new Sequelize(config),
+  { Usuario } = require('../models')
 
 const users = [{
   id: 1,
@@ -27,19 +28,24 @@ const controller = {
       users
     })
   },
-  index: (req, res, next) => {
-    const { id } = req.params
-    return req.query.edit === 'edit'
-      ? res.render('editUser', {
-        title: 'Página de Usuário',
-        subtitle: `Confira a seguir o usuário de id ${id}`,
-        user: users[id - 1]
-      })
-      : res.render('users', {
-        title: 'Página de Usuário',
-        subtitle: `Confira a seguir o usuário de id ${id}`,
-        users: [users[id - 1]]
-      })
+  index: async (req, res, next) => {
+    const { id } = req.params,
+      user = await Usuario.findOne({ where: { id } })
+    if (user) {
+      return req.query.edit === 'edit'
+        ? res.render('editUser', {
+          title: `Página de Edição do Usuário ${user.nome} ${user.sobrenome}`,
+          subtitle: `Confira a seguir o usuário #${id} | ${user.nome} ${user.sobrenome}`,
+          user
+        })
+        : res.render('users', {
+          title: `Página de Visualização do Usuário ${user.nome} ${user.sobrenome}`,
+          subtitle: `Confira a seguir o usuário #${id} | ${user.nome} ${user.sobrenome}`,
+          users: [user]
+        })
+    } else {
+      res.status(500).send(`Ops... houve algum erro ao buscar pelo usuário de id ${id}`)
+    }
   },
   addUser: async (req, res, next) => {
     res.render('addUser', {
