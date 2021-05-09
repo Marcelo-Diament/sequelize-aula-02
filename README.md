@@ -966,3 +966,25 @@ router.get('/add', controller.addUser)
   </form>
 </section>
 ```
+
+Para simularmos a adição do novo usuário, vamos incluir mais um método no _controller_ e mais uma rota:
+
+**./backend/controllers/users.js**
+
+``` js
+register: async (req, res, next) => {
+    const newUser = req.body
+    newUser.id_funcao = 1
+    res.render('users', {
+      title: 'Usuário Cadastrado com Sucesso!',
+      subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
+      users: [newUser, ...users]
+    })
+  }
+```
+
+**./backend/routes/users.js**
+
+``` js
+router.post('/', controller.register)
+```
