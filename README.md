@@ -1631,3 +1631,39 @@ delete: async (req, res, next) => {
     }
 }
 ```
+
+## Adicionar um Usuário (create)
+
+**Branch:** [feature/create-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/create-user)
+
+Para adicionar um usuário, usaremos o _model query_ `create` no método `register` do _controller_ de usuários:
+
+``` js
+register: async (req, res, next) => {
+    const {
+        nome,
+        sobrenome,
+        email,
+        senha
+    } = req.body,
+        id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1,
+        user = await Usuario.create({
+            nome,
+            sobrenome,
+            email,
+            senha,
+            id_funcao
+        })
+    if (user) {
+        res.redirect('/users')
+    } else {
+        res.status(500).send('Ops... Algo de errado não deu certo!')
+    }
+}
+```
+
+Vale ressaltar dois pontos:
+
+1. Não estamos fazendo nenhum tipo de tratamento na senha (como um _hash_ com o `BCrypt`, por exemplo - faremos isso mais adiante). Jamais faça isso num site real, em um ambiente de produção.
+
+2. Estamos validando se o usuário é administrador ou não a partir do domínio do email (se possui `@diament.com.br`), mas há outras maneiras mais sofisticadas de realizarmos tal validação (por exemplo, no momento de um cadastro feito por um administrador).
