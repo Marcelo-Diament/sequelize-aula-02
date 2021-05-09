@@ -651,8 +651,32 @@ a {
     width: -webkit-fill-available;
 }
 
+.header {
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
 .header__title {
     font-size: 16px;
+}
+
+.header__nav a {
+    color: var(--branco);
+    font-weight: bolder;
+}
+
+.header__nav a:hover {
+    color: var(--chumbo);
+}
+
+.header__nav a:hover::after {
+    color: var(--branco);
+}
+
+.header__nav a:not(:last-child)::after {
+    content: ' | ';
 }
 
 .footer__title {
@@ -694,6 +718,12 @@ main {
     background-color: var(--chumbo);
     color: var(--azul);
     cursor: pointer;
+}
+
+@media only screen and (min-width: 640px) {
+    .header {
+        flex-flow: row wrap;
+    }
 }
 ```
 
