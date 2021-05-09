@@ -858,7 +858,7 @@ E precisamos estilizar essa nossa tabela, concorda? Podemos acrescentar o seguin
 ``` css
 .users__table {
     font-weight: bold;
-    margin: 16px auto;
+    margin: 24px auto;
 }
 
 .users__table thead {
@@ -880,14 +880,16 @@ Vamos criar o contexto de leitura de um usuário único, incluindo uma rota espe
 
 **./backend/controllers/users.js**
 
-``` ejs
+``` js
 index: (req, res, next) => {
-  const { id } = req.params
-  res.render('users', {
-    title: 'Página de Usuário',
-    subtitle: `Confira a seguir o usuário de id ${id}`,
-    users: [users[id - 1]]
-  })
+    const {
+        id
+    } = req.params
+    res.render('users', {
+        title: 'Página de Usuário',
+        subtitle: `Confira a seguir o usuário de id ${id}`,
+        users: [users[id - 1]]
+    })
 }
 ```
 
@@ -895,6 +897,72 @@ _No caso estamos forçando a entrega do usuário único como um array para poder
 
 **./backend/routes/users.js**
 
-``` ejs
+``` js
 router.get('/:id', controller.index)
+```
+
+## Cadastro de Usuário
+
+**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
+
+Vamos criar uma _partial view_, um _controller_ e uma rota para a adição de usuário.
+
+**./backend/controllers/users.js**
+
+``` js
+addUser: async (req, res, next) => {
+    res.render('addUser', {
+        title: 'Página de Registro de Usuário',
+        subtitle: 'Preencha o formulário e cadastre-o clicando em \'Adicionar Usuário\''
+    })
+}
+```
+
+**./backend/routes/users.js**
+
+``` js
+router.get('/add', controller.addUser)
+```
+
+**./backend/views/addUser.ejs**
+
+``` ejs
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<main>
+  <section class="main-section">
+    <h2 class="main-section__title"><%= title %></h2>
+    <h3 class="main-section__subtitle"><%= subtitle %></h3>
+  </section>
+  <%- include('partials/users/register') %>
+</main>
+<%- include('partials/footer') %>
+```
+
+**./backend/views/partials/users/register.ejs**
+
+``` ejs
+<section id="addUserSection" class="register-user">
+  <form action="/users" method="POST" class="form">
+    <div class="form__input-container">
+      <label for="nome">Nome</label>
+      <input type="text" name="nome" id="nome" required placeholder="Benedito">
+    </div>
+    <div class="form__input-container">
+      <label for="sobrenome">Sobrenome</label>
+      <input type="text" name="sobrenome" id="sobrenome" required placeholder="Calixto">
+    </div>
+    <div class="form__input-container">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required placeholder="bene@dito.com">
+    </div>
+    <div class="form__input-container">
+      <label for="senha">Senha</label>
+      <input type="password" name="senha" id="senha" required placeholder="Senha123">
+    </div>
+    <div class="form__btns">
+      <button>Adicionar Usuário</button>
+    </div>
+  </form>
+</section>
 ```
