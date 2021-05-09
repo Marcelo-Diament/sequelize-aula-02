@@ -1537,10 +1537,54 @@ O mesmo ocorre com o campo ID - não precisaríamos declará-lo, pois por padrã
 
 Outro ponto importante é que o Sequelize cria os campos de _timestamp_ (_createdAt_ e _updatedAt_). Como não temos esses campos em nossa tabela, manteremos a propriedade como `false` .
 
-Por fim, no arquivo `./backend/models/index.js`, precisamos atualizar a linha que faz referência ao arquivo de configuração:
+Por fim, no arquivo `./backend/models/index.js` , precisamos atualizar a linha que faz referência ao arquivo de configuração:
 
-```js
-const config = require('/../config/database.js');
+``` js
+const config = require('../config/database.js');
 ```
 
 Está feito! Agora podemos partir para a manipulação dos registros! =)
+
+## Listar um Usuário (findOne)
+
+**Branch:** [feature/list-single-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/list-single-user)
+
+Vamos atualizar nosso _controller_ para lermos um registro único de nosso banco.
+
+No _controller_ de usuários vamos chamar nosso _model_ `Usuario` e depois atualizar o método `index` da seguinte maneira:
+
+``` js
+const {
+    Usuario
+} = require('../models')
+```
+
+E nosso método `index` :
+
+``` js
+index: async (req, res, next) => {
+    const {
+        id
+    } = req.params,
+        user = await Usuario.findOne({
+            where: {
+                id
+            }
+        })
+    if (user) {
+        return req.query.edit === 'edit' ?
+            res.render('editUser', {
+                title: `Página de Edição do Usuário ${user.nome} ${user.sobrenome}`,
+                subtitle: `Confira a seguir o usuário #${id} | ${user.nome} ${user.sobrenome}`,
+                user
+            }) :
+            res.render('users', {
+                title: `Página de Visualização do Usuário ${user.nome} ${user.sobrenome}`,
+                subtitle: `Confira a seguir o usuário #${id} | ${user.nome} ${user.sobrenome}`,
+                users: [user]
+            })
+    } else {
+        res.status(500).send(`Ops... houve algum erro ao buscar pelo usuário de id ${id}`)
+    }
+}
+```
