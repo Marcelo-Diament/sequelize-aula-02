@@ -973,14 +973,15 @@ Para simularmos a adição do novo usuário, vamos incluir mais um método no _c
 
 ``` js
 register: async (req, res, next) => {
-    const newUser = req.body
-    newUser.id_funcao = 1
-    res.render('users', {
-      title: 'Usuário Cadastrado com Sucesso!',
-      subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
-      users: [newUser, ...users]
-    })
-  }
+  const newUser = req.body
+  newUser.id_funcao = 1
+  newUser.id = users.length + 1
+  res.render('users', {
+    title: 'Usuário Cadastrado com Sucesso!',
+    subtitle: 'Retorno fictício, ainda não adicionamos nenhum usuário',
+    users: [...users,newUser]
+  })
+}
 ```
 
 **./backend/routes/users.js**
