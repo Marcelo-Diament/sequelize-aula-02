@@ -1,3 +1,44 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<%- include('partials/head') %>
+<style>
+  body {
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    background-color: var(--chumbo);
+    background-image: url('/images/404.jpg');
+    background-position: center;
+    background-size: cover;
+  }
+
+  h1,
+  h2,
+  p {
+    color: var(--branco);
+  }
+
+  h1 {
+    font-size: 8rem;
+  }
+
+  h2 {
+    font-size: 4rem;
+  }
+
+  p {
+    background-color: rgba(151, 0, 0, 0.5);
+    font-size: 1.25rem;
+    line-height: 2.5rem;
+    margin: 32px auto;
+    overflow-wrap: anywhere;
+    padding: 16px;
+  }
+</style>
+<main>
+  <section class="main-section">
+    <h1>Ops...<br/>Algo de errado não deu certo!</h1>
+    <h2><%= error.status %> | <%= message %></h2>
+    <p><%= error.stack %></p>
+  </section>
+</main>
+</body>
+
+</html>
