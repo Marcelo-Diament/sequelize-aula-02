@@ -73,6 +73,23 @@ main {
   font-size: 16px;
 }
 
+.cta__btn {
+  background-color: var(--azul);
+  border: none;
+  color: var(--branco);
+  display: inline-block;
+  font-weight: bolder;
+  text-align: center;
+  margin: auto;
+  padding: 6px 12px;
+}
+
+.cta__btn:hover {
+  background-color: var(--chumbo);
+  color: var(--azul);
+  cursor: pointer;
+}
+
 .users__table {
   font-weight: bold;
   margin: 24px auto;
