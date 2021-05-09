@@ -1,3 +1,7 @@
+const Sequelize = require('sequelize'),
+  config = require('../config/database'),
+  db = new Sequelize(config)
+
 const users = [{
   id: 1,
   nome: 'Fulano',
