@@ -368,7 +368,7 @@ Estamos simplesmente declarando qual o caminho para o arquivo com os dados de co
 
 Antes de entrarmos nas telas de usuários, vamos apenas ajustar nossa Homepage. Dessa forma, já faremos uma revisão breve sobre os principais conceitos do Express, MVC (no caso apenas o V - View e o C - Controller) e EJS (template engine). Lembrando que grande parte do trabalho já foi feita pelo Express Generator.
 
-### Revisão
+#### Revisão
 
 **./backend/app.js**
 
@@ -438,7 +438,7 @@ Isso vai chamar o _script_ `start` que definimos no `./backend/package.json` , q
 
 Agora é só acessarmos o endereço `localhost:3000` para vermos nossa tela inicial! =)
 
-### Controller
+#### Controller
 
 O Controller serve para gerenciar, controlar, o que deve acontecer entre o acesso à rota (_request_) e a resposta entregue na tela (_response_). Dessa forma conseguimos implantar regras de negócio de forma a isolar tal responsabilidade.
 
@@ -468,7 +468,7 @@ module.exports = controller
 
 Nesse caso só estamos prevendo um método - `index` - que responde ao acesso à página inicial sob o método `GET` (por isso o método do Express utilizado na rota é o `get()` ).
 
-### Atualização Rota index
+#### Atualização Rota index
 
 Agora precisamos utilizar o _controller_ `index` na respectiva rota. Vamos importá-lo (com `require()` ) e atrelá-lo à rota para a página inicial ( `'/'` ) sob o método GET ( `get()` ). No final das contas, estamos apenas utilizando o método `index` do _controller_ como segundo parâmetro da rota. Então o arquivo `./backend/routes/index.js` fica assim (já com algumas alterações de escrita):
 
@@ -482,7 +482,7 @@ router.get('/', controller.index)
 module.exports = router
 ```
 
-### Atualização da View index
+#### Atualização da View index
 
 E, para finalizarmos, vamos atualizar nossa _view_ `index` (em `./backend/views/index.ejs` ). Somente trocaremos a frase padrão pela propriedade `subtitle` que criamos no _controller_:
 
@@ -504,7 +504,7 @@ Com isso finalizamos nossa página inicial!
 
 Sim, está super simples - mas a ideia é partirmos logo para o Sequelize, e não criarmos um front bonito para a Homepage.
 
-### Templates Parciais
+#### Templates Parciais
 
 **Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/project-base)
 
@@ -514,7 +514,7 @@ Como essas 3 _tags_ sempre se repetem, isolarmos elas e importarmos em cada _tem
 
 São pouquíssimos passos, quase que um `Control + X` / `Control + V` .
 
-### Pasta partials
+#### Pasta partials
 
 O primeiro passo é criarmos a pasta `./backend/views/partials` (partindo já de `./backend` ):
 
@@ -528,7 +528,7 @@ Dentro dessa pasta criaremos os 3 arquivos:
 cd partials && touch head.ejs header.ejs footer.ejs
 ```
 
-### Head, Header e Footer
+#### Head, Header e Footer
 
 Agora tudo o que temos que fazer é recortar cada trecho e colar no respectivo _subtemplate_. Mas... já que vamos mexer nisso, já vamos adicionar algumas classes (respeitando o padrão [BEM](http://getbem.com/naming/), onde organizamos os seletores por Bloco, Elemento e Modificador) para darmos um 'talento' nesse estilo.
 
@@ -580,7 +580,7 @@ No `footer` usaremos um texto fixo acompanhado do símbolo HTML de _copyright_ e
 </html>
 ```
 
-### Incluindo os Templates Parciais
+#### Incluindo os Templates Parciais
 
 Agora que temos nossos templates parciais prontos, precisamos inclui-los na _view_ `index` . Para isso usaremos a seguinte sintaxe: `<%- include('caminho-do-arquivo/a-partir-da-view-atual') %>` :
 
@@ -611,7 +611,7 @@ E para nossa _homepage_ não ficar tão sem graça assim, vamos incrementar um p
 <%- include('partials/footer') %>
 ```
 
-### Atualizando o Estilo
+#### Atualizando o Estilo
 
 E pra finalizar essa _branch_, vamos atualizar o estilo geral das nossas páginas. O arquivo responsável pelo estilo é o `./backend/public/stylesheets/style.css` . Vamos criar algumas variáveis e aplicar um estilo simples usando as classes que já criamos. Ficará assim:
 
@@ -734,7 +734,7 @@ Agora que já possuimos uma _homepage_ e um singelo estilo aplicado a ela, vamos
 
 Faremos basicamente tudo o que fizemos com a Página Inicial, começando pela rota e seu _controller_.
 
-### Rota users
+#### Rota users
 
 No arquivo `./backend/routes/users.js` , vamos preparar a rota para a listagem dos usuários na _view_ `users` (considerando que cada usuário terá um Nome, Sobrenome, Email, Senha e ID da Função - conforme a tabela que criamos no nosso Banco de Dados).
 
@@ -748,7 +748,7 @@ router.get('/', controller.list)
 module.exports = router
 ```
 
-### Controller users
+#### Controller users
 
 Nesse momento, se estiver com o servidor 'rodando', verá que um erro é acusado. Isso ocorre por que ainda não criamos nosso _controller_ `users` . Faremos isso agora mesmo! Vamos criar o arquivo `./backend/controllers/users.js` e defini-lo dessa maneira:
 
@@ -794,7 +794,7 @@ Verá que esse _controller_ é muito semelhante ao `index` . As únicas diferen�
 
 Esses usuários passados por código (_hard coded_) serão substituídos pelos usuários do banco, em breve. Antes precisamos criar a nossa nova _view_ `users` .
 
-### View users
+#### View users
 
 Podemos duplicar o arquivo `./backend/views/index.ejs` e renomeá-lo como `users.ejs` .
 
@@ -940,7 +940,7 @@ Tudo o que precisamos fazer é mover o trecho referente à listagem de usuários
 </section>
 ```
 
-### Estilo Listagem users
+#### Estilo Listagem users
 
 E precisamos estilizar essa nossa tabela, concorda? Podemos acrescentar o seguinte estilo ao nosso `./backend/public/stylesheets/style.css` :
 
