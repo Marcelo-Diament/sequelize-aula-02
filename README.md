@@ -356,8 +356,7 @@ Nesse arquivo, declararemos o seguinte trecho de código:
 const path = require('path')
 
 module.exports = {
-    'config': path.resolve('config', 'database.js'),
-    'models': path.resolve('models')
+    'config': path.resolve('config', 'database.js')
 }
 ```
 
@@ -1468,9 +1467,19 @@ module.exports = {
 
 **Branch:** [feature/db-connection](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/db-connection)
 
-O _model_ (**M** do **MVC**) representa a tabela que temos no nosso banco de dados - no caso, `ususarios`. Normalmente nomeamos nosso _model_ no singular e com a primeira letra maiúscula (conforme nomenclatura de classes, já que estamos trabalhando com um ORM - _Object Relational Mapping_).
+O _model_ (**M** do **MVC**) representa a tabela que temos no nosso banco de dados - no caso, `ususarios` . Normalmente nomeamos nosso _model_ no singular e com a primeira letra maiúscula (conforme nomenclatura de classes, já que estamos trabalhando com um ORM - _Object Relational Mapping_).
 
-Primeiro vamos incluir a informação acerca de _models_ (qual sua pasta) no `./backend/.sequelizerc` :
+### Iniciando os models
+
+Precisamos gerar a pasta `./backend/models` e um arquivo `index.js` que será criado dentro dela. Para isso usaremos o _npm_ (com o comando `npx` ) ou o _yarn_ (com o comando `yarn` ):
+
+``` sh
+npx sequelize init:models
+```
+
+### Caminho dos models
+
+Então vamos incluir a informação acerca de _models_ (qual sua pasta) no `./backend/.sequelizerc` :
 
 ``` js
 const path = require('path')
@@ -1479,10 +1488,4 @@ module.exports = {
     'config': path.resolve('config', 'database.js'),
     'models': path.resolve('models')
 }
-```
-
-Agora precisamos gerar a pasta `./backend/models` e um arquivo `index.js` que será criado dentro dela. Para isso usaremos o _npm_ (com o comando `npx`) ou o _yarn_ (com o comando `yarn`):
-
-``` sh
-npx sequelize init:models
 ```
