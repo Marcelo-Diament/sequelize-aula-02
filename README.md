@@ -1822,3 +1822,67 @@ const controller = {
 
 module.exports = controller
 ```
+
+## v1.7.0 | Busca de Usuários
+
+**Branch:** [feature/user-search](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/user-search)
+
+Bora deixar o projeto mais elegante? Que tal incluirmos uma busca?
+
+### Rota de Busca
+
+Vamos incluir uma rota para podermos chamar uma busca por nome, sobrenome ou função ( `id_funcao` ).
+
+``` js
+router.get('/search/:searchParam/:searchValue', controller.search)
+```
+
+### Controller
+
+Precisamos importar o `sequelize` e uma _feature_ do Sequelize chamada `Op` - que nos permite usar operadores em nossas _queries_.
+
+``` js
+const Sequelize = require('sequelize'),
+    {
+        Usuario
+    } = require('../models'),
+    {
+        Op
+    } = Sequelize
+```
+
+E então criar o método `search` :
+
+``` js
+search: async (req, res, next) => {
+    const {
+        searchParam,
+        searchValue
+    } = req.params,
+        whereClause = {}
+    whereClause[searchParam] = {
+        [Op.like]: `%${searchValue}%`
+    }
+    const users = await Usuario.findAll({
+            where: whereClause
+        })
+        .catch(function(err) {
+            res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
+        })
+    if (users) {
+        res.render('users', {
+            title: 'Página de Usuários',
+            subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+            users
+        })
+    } else {
+        res.status(500).send(`Ops... houve algum erro em nossa busca`)
+    }
+}
+```
+
+> Nota importante: estamos criando nosso operador `LIKE` de forma mais genérica (assim podemos enviar tanto o parâmetro quanto o valor via `req.params` sem criar condições para que tipo de parâmetro de busca será usado).
+
+Como sabemos, o `%` é um símbolo coringa, ou seja, nossa busca retornará qualquer resultado que contenha a string enviada como parte de seu valor. Se quisermos resultados exatos, podemos remover esses símbolos do início e final do `searchValue` .
+
+Perceba, ainda, que estamos usando um `catch` para tratarmos buscar 'mal feitas', como buscas por parâmetros inexistentes. =)
