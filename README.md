@@ -1437,3 +1437,29 @@ const Sequelize = require('sequelize'),
     config = require('../config/database'),
     db = new Sequelize(config)
 ```
+
+Claro, isso desde que já tenha concluído as seguintes etapas:
+
+* Criar o arquivo `backend\config\database.js`:
+
+``` js
+const config = {
+    username: 'root',
+    password: '',
+    database: 'aula_sequelize_02',
+    host: 'localhost',
+    dialect: 'mysql'
+}
+
+module.exports = config
+```
+
+* Criar o arquivo `./backend/.sequelizerc`:
+
+``` js
+const path = require('path')
+
+module.exports = {
+    'config': path.resolve('config', 'database.js')
+}
+```
