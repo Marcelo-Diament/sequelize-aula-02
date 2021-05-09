@@ -57,3 +57,18 @@ main {
   color: var(--chumbo);
   font-size: 16px;
 }
+
+.users__table {
+  font-weight: bold;
+  margin: 16px auto;
+}
+
+.users__table thead {
+  background-color: var(--azul);
+  color: var(--branco);
+}
+
+.users__table th,
+.users__table td {
+  padding: 6px 12px;
+}
