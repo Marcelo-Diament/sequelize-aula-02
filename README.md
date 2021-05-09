@@ -1489,3 +1489,58 @@ module.exports = {
     'models': path.resolve('models')
 }
 ```
+
+### Model Usuario
+
+Agora chegou a hora de representarmos a tabela `usuarios` através do nosso _model_ `Usuario` . Dentro da pasta `./backend/models` vamos criar o arquivo `Usuario.js` (no singular e com a primeira letra maiúscula). Nesse arquivo mapearemos os atributos de nossa tabela e as _constraints_ de cada atributo.
+
+``` js
+module.exports = (sequelize, DataType) => {
+    const Usuario = sequelize.define('Usuario', {
+        id: {
+            type: DataType.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        nome: {
+            type: DataType.STRING,
+            allowNull: false
+        },
+        sobrenome: {
+            type: DataType.STRING,
+            allowNull: false
+        },
+        email: {
+            type: DataType.STRING,
+            allowNull: false
+        },
+        senha: {
+            type: DataType.STRING,
+            allowNull: false
+        },
+        id_funcao: {
+            type: DataType.INTEGER,
+            allowNull: false
+        }
+    }, {
+        tableName: 'usuarios',
+        timestamps: false
+    })
+
+    return Usuario
+}
+```
+
+Por padrão, o Sequelize interpreta o nome da tabela (no Banco de Dados) como o nome do _model_ no plural (acrescentando um `s` ). No entanto estamos declarando essa propriedade apenas para sabermos que podemos configurar isso.
+
+O mesmo ocorre com o campo ID - não precisaríamos declará-lo, pois por padrão o Sequelize já considera uma _primary key_ com o atributo ID.
+
+Outro ponto importante é que o Sequelize cria os campos de _timestamp_ (_createdAt_ e _updatedAt_). Como não temos esses campos em nossa tabela, manteremos a propriedade como `false` .
+
+Por fim, no arquivo `./backend/models/index.js`, precisamos atualizar a linha que faz referência ao arquivo de configuração:
+
+```js
+const config = require('/../config/database.js');
+```
+
+Está feito! Agora podemos partir para a manipulação dos registros! =)
