@@ -1247,3 +1247,102 @@ E vamos atualizar o estilo também.
     cursor: pointer;
 }
 ```
+
+## Edição de Usuário
+
+**Branch:** [feature/project-base](https://github.com/Marcelo-Diament/sequelize-aula-01/tree/feature/project-base)
+
+Vamos criar uma _partial view_, um _controller_ e uma rota para a edição de usuário.
+
+**./backend/views/editUser.ejs**
+
+``` ejs
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<main>
+  <section class="main-section">
+    <h2 class="main-section__title"><%= title %></h2>
+    <h3 class="main-section__subtitle"><%= subtitle %></h3>
+  </section>
+  <%- include('partials/users/update') %>
+</main>
+<%- include('partials/footer') %>
+```
+
+**./backend/views/partials/users/update.ejs**
+
+``` ejs
+<section id="editUserSection" class="edit-user">
+  <form action="" method="POST" class="form">
+    <div class="form__input-container">
+      <label for="nome">Nome</label>
+      <input type="text" name="nome" id="nome" required placeholder="Benedito" value="<%= user.nome %>">
+    </div>
+    <div class="form__input-container">
+      <label for="sobrenome">Sobrenome</label>
+      <input type="text" name="sobrenome" id="sobrenome" required placeholder="Calixto" value="<%= user.sobrenome %>">
+    </div>
+    <div class="form__input-container">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required placeholder="bene@dito.com" value="<%= user.email %>">
+    </div>
+    <div class="form__input-container">
+      <label for="senha">Senha</label>
+      <input type="password" name="senha" id="senha" required placeholder="Senha123" value="<%= user.senha %>">
+    </div>
+    <div class="form__btns">
+      <button>Editar Usuário</button>
+    </div>
+  </form>
+</section>
+```
+
+**./backend/controllers/users.js - index**
+
+``` js
+index: (req, res, next) => {
+    const {
+        id
+    } = req.params
+    return req.query.edit === 'edit' ?
+        res.render('editUser', {
+            title: 'Página de Usuário',
+            subtitle: `Confira a seguir o usuário de id ${id}`,
+            user: users[id - 1]
+        }) :
+        res.render('users', {
+            title: 'Página de Usuário',
+            subtitle: `Confira a seguir o usuário de id ${id}`,
+            users: [users[id - 1]]
+        })
+}
+```
+
+**./backend/controllers/users.js - update**
+
+``` js
+update: async (req, res, next) => {
+    const {
+        id
+    } = req.params, {
+        nome,
+        sobrenome,
+        email
+    } = req.body
+    users[id - 1].nome = nome
+    users[id - 1].sobrenome = sobrenome
+    users[id - 1].email = email
+    res.render('users', {
+        title: 'Usuário Cadastrado com Sucesso!',
+        subtitle: 'Retorno fictício, não editamos nenhum usuário',
+        users
+    })
+}
+```
+
+
+**./backend/routes/users.js**
+
+``` js
+router.post('/:id', controller.update)
+```
