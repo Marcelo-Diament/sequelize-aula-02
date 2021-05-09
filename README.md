@@ -1545,7 +1545,7 @@ const config = require('../config/database.js');
 
 Está feito! Agora podemos partir para a manipulação dos registros! =)
 
-## Listar um Usuário (findOne)
+## Listar Um Usuário (findOne)
 
 **Branch:** [feature/list-single-user](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/list-single-user)
 
@@ -1588,3 +1588,22 @@ index: async (req, res, next) => {
     }
 }
 ```
+
+## Listar Todos os Usuários (findAll)
+
+**Branch:** [feature/list-all-users](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/list-all-users)
+
+Agora iremos listar todos os usuários. Bem simples - vamos atualizar nosso método `list` no _controller_ de usuários:
+
+``` js
+list: async (req, res, next) => {
+    const users = await Usuario.findAll()
+    res.render('users', {
+        title: 'Página de Usuários',
+        subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+        users
+    })
+}
+```
+
+Perceba que novamente estamos usando o `async/await`. Isso pois não sabemos quanto tempo demorará para recebermos o retorno de nossa _query_.
