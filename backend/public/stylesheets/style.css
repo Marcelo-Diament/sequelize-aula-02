@@ -81,6 +81,8 @@ a {
 
 #searchUserSection {
   background-color: var(--cinza);
+  display: flex;
+  justify-content: space-between;
   padding: 16px;
 }
 

@@ -1,27 +1,25 @@
-<section id="searchUserSection" class="search-user">
-  <form action="/users/search/" method="POST" class="form">
-    <div class="form__input-container search-param">
-      <label for="searchParam">Buscar por</label>
-      <select name="searchParam" id="searchParam">
-        <option value="" disabled selected>Selecione um parâmetro</option>
-        <option value="id">ID</option>
-        <option value="nome">Nome</option>
-        <option value="sobrenome">Sobrenome</option>
-        <option value="email">Email</option>
-        <option value="id_funcao">Função</option>
-      </select>
-    </div>
-    <div class="form__input-container search-value">
-      <label for="searchValue">Valor buscado</label>
-      <input type="text" name="searchValue" id="searchValue" required placeholder="Calixto">
-      <select name="searchRole" id="searchRole" class="hidden">
-        <option value="" disabled selected>Selecione um valor</option>
-        <option value="1">Admin</option>
-        <option value="2">Usuário Final</option>
-      </select>
-    </div>
-    <div class="form__btns">
-      <button>Buscar Usuário</button>
-    </div>
-  </form>
-</section>
+<form action="/users/search/" method="POST" class="form">
+  <div class="form__input-container search-param">
+    <label for="searchParam">Buscar por</label>
+    <select name="searchParam" id="searchParam">
+      <option value="" disabled selected>Selecione um parâmetro</option>
+      <option value="id">ID</option>
+      <option value="nome">Nome</option>
+      <option value="sobrenome">Sobrenome</option>
+      <option value="email">Email</option>
+      <option value="id_funcao">Função</option>
+    </select>
+  </div>
+  <div class="form__input-container search-value">
+    <label for="searchValue">Valor buscado</label>
+    <input type="text" name="searchValue" id="searchValue" required placeholder="Calixto">
+    <select name="searchRole" id="searchRole" class="hidden">
+      <option value="" disabled selected>Selecione um valor</option>
+      <option value="1">Admin</option>
+      <option value="2">Usuário Final</option>
+    </select>
+  </div>
+  <div class="form__btns">
+    <button>Buscar Usuário</button>
+  </div>
+</form>

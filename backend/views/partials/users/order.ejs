@@ -1,0 +1,14 @@
+<div class="form__input-container order-by">
+  <label for="orderBy">Ordenar por</label>
+  <select name="orderBy" id="orderBy" onchange="location.search === '' ? location.search = '?orderBy=' + this.value : location.search.includes('orderBy=') ? location.search = location.search.split('orderBy=')[0] + 'orderBy=' + this.value : location.search += '&orderBy=' + this.value">
+    <option value="" disabled selected>Ordernar por...</option>
+    <option value="id_ASC">Mais Antigos</option>
+    <option value="id_DESC">Mais Recentes</option>
+    <option value="nome_ASC">Nome A-Z</option>
+    <option value="nome_DESC">Nome Z-A</option>
+    <option value="sobrenome_ASC">Sobrenome A-Z</option>
+    <option value="sobrenome_DESC">Sobrenome Z-A</option>
+    <option value="email_ASC">Email A-Z</option>
+    <option value="email_DESC">Email Z-A</option>
+  </select>
+</div>
