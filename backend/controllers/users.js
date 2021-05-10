@@ -79,7 +79,7 @@ const controller = {
     }
   },
   search: async (req, res, next) => {
-    const { searchParam, searchValue } = req.params,
+    const { searchParam, searchValue } = await req.body,
       whereClause = {}
     whereClause[searchParam] = { [Op.like]: `%${searchValue}%` }
     const users = await Usuario.findAll({ where: whereClause })
@@ -88,8 +88,8 @@ const controller = {
       })
     if (users) {
       res.render('users', {
-        title: 'Página de Usuários',
-        subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+        title: 'Página de Resultado de Usuários',
+        subtitle: 'Confira a seguir os usuários encontrados em nosso banco de dados',
         users
       })
     } else {
