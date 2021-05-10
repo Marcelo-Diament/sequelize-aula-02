@@ -2009,3 +2009,11 @@ window.onload = () => {
 
 }
 ```
+
+### Atualizando a Rota
+
+Vamos atualizar a rota da seguinte maneira:
+
+```js
+router.post('/search/:searchParam/:searchValue', controller.search)
+```
