@@ -2014,6 +2014,38 @@ window.onload = () => {
 
 Vamos atualizar a rota da seguinte maneira:
 
-```js
+``` js
 router.post('/search/:searchParam/:searchValue', controller.search)
+```
+
+### Atualizando o Controller
+
+Por fim, atualizaremos o _controller_! Simplesmente trocaremos a captura dos dados de `req.params` para `req.body` , já que trocamos o método do formulário para `POST` :
+
+``` js
+search: async (req, res, next) => {
+    const {
+        searchParam,
+        searchValue
+    } = await req.body,
+        whereClause = {}
+    whereClause[searchParam] = {
+        [Op.like]: `%${searchValue}%`
+    }
+    const users = await Usuario.findAll({
+            where: whereClause
+        })
+        .catch(function(err) {
+            res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
+        })
+    if (users) {
+        res.render('users', {
+            title: 'Página de Resultado de Usuários',
+            subtitle: 'Confira a seguir os usuários encontrados em nosso banco de dados',
+            users
+        })
+    } else {
+        res.status(500).send(`Ops... houve algum erro em nossa busca`)
+    }
+}
 ```
