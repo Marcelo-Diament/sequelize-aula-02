@@ -2317,6 +2317,7 @@ E atualizamos nosso estilo:
 #searchUserSection {
     background-color: var(--cinza);
     display: flex;
+    flex-flow: column nowrap;
     justify-content: space-between;
     padding: 16px;
 }
@@ -2346,6 +2347,7 @@ E atualizamos nosso estilo:
     }
 
     #searchUserSection {
+        flex-flow: row nowrap;
         max-height: 80px;
     }
 
