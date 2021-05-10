@@ -2178,14 +2178,14 @@ list: async (req, res, next) => {
 
 Como antes `search` só era acessível via `POST` , teremos de fazer uma pré validação também e capturar via `req.params` e adicionar uma rota igual mas com o verbo `GET` .
 
-**Rota:**
+### Rota
 
 ``` js
 router.post('/search/:searchParam/:searchValue', controller.search)
 router.get('/search/:searchParam/:searchValue', controller.search)
 ```
 
-**Controller**
+### Controller
 
 ``` js
 search: async (req, res, next) => {
