@@ -2223,3 +2223,88 @@ search: async (req, res, next) => {
     }
 }
 ```
+
+### Views
+
+Vamos adicionar uma opção para a ordenação dos registros.
+
+**header.ejs**
+
+Trocamos a inclusão de `search` por `controls` :
+
+``` ejs
+<header class="header">
+  <h1 class="header__title">Sequelize #02 | Models e Queries</h1>
+  <nav class="header__nav">
+    <a href="/" target="_self" rel="next" title="Acessar página iniciar">Início</a>
+    <a href="/users/add" target="_self" rel="next" title="Cadastrar usuário">Cadastro</a>
+    <a href="/users" target="_self" rel="next" title="Ver listagem de usuários">Usuários</a>
+    <a href="https://github.com/Marcelo-Diament/sequelize-aula-02" target="_blank" rel="author" title="Ver repositório">Repositório</a>
+  </nav>
+</header>
+<%- include('users/controls') %>
+```
+
+**controls.ejs**
+
+Trazemos a _tag_ que estava em `search` para esse novo _template_:
+
+``` ejs
+<section id="searchUserSection" class="search-user">
+  <%- include('order') %>
+  <%- include('search') %>
+</section>
+```
+
+**search.ejs**
+
+Simplesmente tiramos a _tag_ container `section` da _tag_ `form` (que foi trazida para `controls` ):
+
+``` ejs
+<form action="/users/search/" method="POST" class="form">
+  <div class="form__input-container search-param">
+    <label for="searchParam">Buscar por</label>
+    <select name="searchParam" id="searchParam">
+      <option value="" disabled selected>Selecione um parâmetro</option>
+      <option value="id">ID</option>
+      <option value="nome">Nome</option>
+      <option value="sobrenome">Sobrenome</option>
+      <option value="email">Email</option>
+      <option value="id_funcao">Função</option>
+    </select>
+  </div>
+  <div class="form__input-container search-value">
+    <label for="searchValue">Valor buscado</label>
+    <input type="text" name="searchValue" id="searchValue" required placeholder="Calixto">
+    <select name="searchRole" id="searchRole" class="hidden">
+      <option value="" disabled selected>Selecione um valor</option>
+      <option value="1">Admin</option>
+      <option value="2">Usuário Final</option>
+    </select>
+  </div>
+  <div class="form__btns">
+    <button>Buscar Usuário</button>
+  </div>
+</form>
+```
+
+**order.ejs**
+
+Criamos um seletor já com um evento na _tag_ `select` do tipo `change` :
+
+``` ejs
+<div class="form__input-container order-by">
+  <label for="orderBy">Ordenar por</label>
+  <select name="orderBy" id="orderBy" onchange="location.search === '' ? location.search = '?orderBy=' + this.value : location.search.includes('orderBy=') ? location.search = location.search.split('orderBy=')[0] + 'orderBy=' + this.value : location.search += '&orderBy=' + this.value">
+    <option value="" disabled selected>Ordernar por...</option>
+    <option value="id_ASC">Mais Antigos</option>
+    <option value="id_DESC">Mais Recentes</option>
+    <option value="nome_ASC">Nome A-Z</option>
+    <option value="nome_DESC">Nome Z-A</option>
+    <option value="sobrenome_ASC">Sobrenome A-Z</option>
+    <option value="sobrenome_DESC">Sobrenome Z-A</option>
+    <option value="email_ASC">Email A-Z</option>
+    <option value="email_DESC">Email Z-A</option>
+  </select>
+</div>
+```
