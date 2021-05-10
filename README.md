@@ -1886,3 +1886,51 @@ search: async (req, res, next) => {
 Como sabemos, o `%` é um símbolo coringa, ou seja, nossa busca retornará qualquer resultado que contenha a string enviada como parte de seu valor. Se quisermos resultados exatos, podemos remover esses símbolos do início e final do `searchValue` .
 
 Perceba, ainda, que estamos usando um `catch` para tratarmos buscar 'mal feitas', como buscas por parâmetros inexistentes. =)
+
+Ok - testamos e está tudo funcionando. Agora vamos melhorar essa busca - incluir um formulário no topo do site, controlar seu comportamento por JS puro e permitir uma busca mais fluída.
+
+### Formulário (view)
+
+Vamos criar um _partial view_ no novo arquivo `./backend/views/partials/users/search.ejs` .
+
+``` ejs
+<section id="searchUserSection" class="search-user">
+  <form action="/users/search/" method="POST" class="form">
+    <div class="form__input-container search-param">
+      <label for="searchParam">Buscar por</label>
+      <select name="searchParam" id="searchParam">
+        <option value="" disabled selected>Selecione um parâmetro</option>
+        <option value="id">ID</option>
+        <option value="nome">Nome</option>
+        <option value="sobrenome">Sobrenome</option>
+        <option value="email">Email</option>
+        <option value="id_funcao">Função</option>
+      </select>
+    </div>
+    <div class="form__input-container search-value">
+      <label for="searchValue">Valor buscado</label>
+      <input type="text" name="searchValue" id="searchValue" required placeholder="Calixto">
+      <select name="searchRole" id="searchRole" class="hidden">
+        <option value="" disabled selected>Selecione um valor</option>
+        <option value="1">Admin</option>
+        <option value="2">Usuário Final</option>
+      </select>
+    </div>
+    <div class="form__btns">
+      <button>Buscar Usuário</button>
+    </div>
+  </form>
+</section>
+```
+
+E vamos incluir esse formulário logo após o `header`:
+
+```ejs
+<%- include('users/search') %>
+```
+
+Por fim, como vamos tratá-lo com JS puro, vamos incluir nosso _script_ (ainda não criado) no `footer`:
+
+```ejs
+<script src="/javascripts/main.js"></script>
+```
