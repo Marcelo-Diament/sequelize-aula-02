@@ -2115,3 +2115,111 @@ Opa! Vamos deixar esse formulário bonito né!
     }
 }
 ```
+
+## v1.8.0 | Ordenação
+
+**Branch:** [feature/order-by](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/order-by)
+
+Que tal aprender como ordenar a listagem de usuários?
+
+Bom, vamos considerar que receberemos um `req.query` indicando tanto o parâmetro de ordenação ( `id` , `nome` ...) quanto a ordenação em si ( `ASC` ou `DESC` ) - separados por um `_` . Exemplo: `...?orderBy=nome_DESC` .
+
+Precisaremos então capturar esses valores e inclui-los como argumentos de uma opção que a _query_ `findAll()` nos dá (vamos deixar a ordenação por ID ascendente como _default_):
+
+``` js
+list: async (req, res, next) => {
+    const {
+        orderBy = 'id_ASC'
+    } = req.query,
+        orderParam = orderBy.split('_')[0],
+        orderDirection = orderBy.split('_')[1]
+    const users = await Usuario.findAll({
+        order: [
+            [orderParam, orderDirection]
+        ]
+    })
+    res.render('users', {
+        title: 'Página de Usuários',
+        subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+        users
+    })
+}
+```
+
+Como podemos utilizar esse mesmo esquema em outros métodos, vamos definir uma função que nos retorne o resultado esperado e simplesmente atrelar seu retorno à propriedade `order` (essa função deve ser declarada antes de declararmos o _controller_):
+
+``` js
+const orderResults = (orderByParam) => {
+    const orderParam = orderByParam.split('_')[0],
+        orderDirection = orderByParam.split('_')[1]
+    return [
+        [orderParam, orderDirection]
+    ]
+}
+```
+
+E agora vamos usar a função nos métodos `list` e `search` .
+
+``` js
+list: async (req, res, next) => {
+    const {
+        orderBy = 'id_ASC'
+    } = req.query
+    const users = await Usuario.findAll({
+        order: orderResults(orderBy)
+    })
+    res.render('users', {
+        title: 'Página de Usuários',
+        subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+        users
+    })
+}
+```
+
+Como antes `search` só era acessível via `POST` , teremos de fazer uma pré validação também e capturar via `req.params` e adicionar uma rota igual mas com o verbo `GET` .
+
+**Rota:**
+
+``` js
+router.post('/search/:searchParam/:searchValue', controller.search)
+router.get('/search/:searchParam/:searchValue', controller.search)
+```
+
+**Controller**
+
+``` js
+search: async (req, res, next) => {
+    let {
+        searchParam,
+        searchValue
+    } = await req.body
+    if (!searchParam || !searchValue) searchParam = await req.params.searchParam
+    if (!searchValue) searchValue = await req.params.searchValue
+
+    let whereClause = {}
+    whereClause[searchParam] = {
+        [Op.like]: `%${searchValue}%`
+    }
+
+    const {
+        orderBy
+    } = await req.query
+
+    const users = await Usuario.findAll({
+            where: whereClause,
+            order: orderResults(orderBy)
+        })
+        .catch(function(err) {
+            res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
+        })
+    if (users) {
+        res.render('users', {
+            title: 'Página de Resultado de Usuários',
+            subtitle: 'Confira a seguir os usuários encontrados em nosso banco de dados',
+            users
+        })
+    } else {
+        res.status(500).send(`Ops... houve algum erro em nossa busca`)
+    }
+}
+```
