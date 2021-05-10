@@ -94,16 +94,19 @@ a {
   min-height: 45px;
 }
 
+#searchUserSection .order-by.form__input-container,
 #searchUserSection form .form__input-container {
   display: flex;
   flex-flow: column nowrap;
   margin-bottom: 16px;
 }
 
+#searchUserSection .order-by.form__input-container label,
 #searchUserSection form .form__input-container label {
   color: var(--chumbo);
 }
 
+#searchUserSection .order-by.form__input-container select,
 #searchUserSection form .form__input-container input,
 #searchUserSection form .form__input-container select:not(.hidden) {
   margin: 0;
@@ -320,11 +323,13 @@ main {
     min-height: 45px;
   }
 
+  #searchUserSection .order-by.form__input-container,
   #searchUserSection form .form__input-container {
     margin-right: 16px;
     margin-bottom: 0;
   }
 
+  #searchUserSection .order-by.form__input-container select,
   #searchUserSection form .form__input-container input.search-param,
   #searchUserSection form .form__input-container input.search-value,
   #searchUserSection form .form__input-container select#searchRole {
