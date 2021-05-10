@@ -1952,3 +1952,60 @@ Também vamos criar um estilo para a classe `hidden` , para podermos partir para
     width: 0;
 }
 ```
+
+### Main JS Script
+
+Agora vamos criar nosso _script_. O primeiro passo é garantirmos que a `window` já foi carregada. Também criaremos uma fução `init` para controlarmos as demais funções.
+
+Em seguida, nossos objetivos são:
+
+1. Alterar o segundo campo (referente ao valor do parâmetro buscado) de acordo com o primeiro campo (parâmetro buscado). Ou seja, se o usuário quiser selecionar o parâmetro como `id_funcao`, precisamos dar a ele as possíveis opções. Vale pontuar que isso ainda está _hard coded_, ou seja, não estamos puxando as opções do banco de dados, mas incluindo pelo próprio _front end_.
+
+2. Alterar a visibilidade do _input_ do valor buscado de acordo com a seleção do primeiroparâmetro. Se o parâmetro for `id_funcao`, vamos deixar esse _input_ com o `type` _hidden_ - assim poderemos continuar pegando o valor da mesma origem, mas sem exibi-lo na tela.
+
+3. Daí nosso terceiro objetivo: popular o valor do _input_ (no cenário da busca por `id_funcao`) de acordo com a escolha no `select` de `id_funcao`.
+
+4. Por fim, precisamos atualizar o atributo `action` do formulário conforme as escolhas feitas.
+
+Mãos à obra!
+
+``` js
+window.onload = () => {
+    const handleSearchForm = () => {
+        const searchForm = document.querySelector('#searchUserSection form'),
+            searchParamSelect = searchForm.querySelector('.search-param select'),
+            searchValueInput = searchForm.querySelector('.search-value input'),
+            searchRole = searchForm.querySelector('.search-value #searchRole')
+
+        const showInputSearch = () => {
+            searchValueInput.value = ''
+            searchValueInput.setAttribute('type', 'text') !searchRole.classList.contains('hidden') && searchRole.classList.add('hidden')
+        }
+
+        const hideInputSearch = () => {
+            searchValueInput.setAttribute('type', 'hidden')
+            searchRole.classList.contains('hidden') && searchRole.classList.remove('hidden')
+            searchRole.onchange = () => searchValueInput.value = searchRole.value
+        }
+
+        const toggleInputSearch = () => searchParamSelect.value === 'id_funcao' ? hideInputSearch() : showInputSearch()
+
+        const updateSearchFormAction = () => searchForm.setAttribute('action', `/users/search/${searchParamSelect.value}/${searchValueInput.value}`)
+
+        searchParamSelect.onchange = () => toggleInputSearch()
+
+        searchForm.onsubmit = () => {
+            event.preventDefault()
+            updateSearchFormAction()
+            searchForm.submit()
+        }
+    }
+
+    const init = () => {
+        handleSearchForm()
+    }
+
+    init()
+
+}
+```
