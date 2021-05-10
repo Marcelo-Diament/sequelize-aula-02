@@ -82,6 +82,7 @@ a {
 #searchUserSection {
   background-color: var(--cinza);
   display: flex;
+  flex-flow: column nowrap;
   justify-content: space-between;
   padding: 16px;
 }
@@ -313,6 +314,7 @@ main {
   }
 
   #searchUserSection {
+    flex-flow: row nowrap;
     max-height: 80px;
   }
 
