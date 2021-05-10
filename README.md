@@ -2308,3 +2308,66 @@ Criamos um seletor já com um evento na _tag_ `select` do tipo `change` :
   </select>
 </div>
 ```
+
+### Estilo
+
+E atualizamos nosso estilo:
+
+``` css
+#searchUserSection {
+    background-color: var(--cinza);
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+#searchUserSection .order-by.form__input-container,
+#searchUserSection form .form__input-container {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-bottom: 16px;
+}
+
+#searchUserSection .order-by.form__input-container label,
+#searchUserSection form .form__input-container label {
+    color: var(--chumbo);
+}
+
+#searchUserSection .order-by.form__input-container select,
+#searchUserSection form .form__input-container input,
+#searchUserSection form .form__input-container select:not(.hidden) {
+    margin: 0;
+    padding: 4px 8px;
+}
+
+@media only screen and (min-width: 640px) {
+    .header {
+        flex-flow: row wrap;
+    }
+
+    #searchUserSection {
+        max-height: 80px;
+    }
+
+    #searchUserSection form {
+        align-items: center;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        min-height: 45px;
+    }
+
+    #searchUserSection .order-by.form__input-container,
+    #searchUserSection form .form__input-container {
+        margin-right: 16px;
+        margin-bottom: 0;
+    }
+
+    #searchUserSection .order-by.form__input-container select,
+    #searchUserSection form .form__input-container input.search-param,
+    #searchUserSection form .form__input-container input.search-value,
+    #searchUserSection form .form__input-container select#searchRole {
+        min-width: 196px;
+        width: 196px;
+    }
+}
+```
