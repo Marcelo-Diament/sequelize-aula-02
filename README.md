@@ -2057,22 +2057,21 @@ Opa! Vamos deixar esse formulário bonito né!
 ``` css
 #searchUserSection {
     background-color: var(--cinza);
-    max-height: 80px;
     padding: 16px;
 }
 
 #searchUserSection form {
-    align-items: center;
+    align-items: stretch;
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
+    flex-flow: column nowrap;
+    justify-content: space-around;
     min-height: 45px;
 }
 
 #searchUserSection form .form__input-container {
     display: flex;
     flex-flow: column nowrap;
-    margin-right: 16px;
+    margin-bottom: 16px;
 }
 
 #searchUserSection form .form__input-container label {
@@ -2085,14 +2084,34 @@ Opa! Vamos deixar esse formulário bonito né!
     padding: 4px 8px;
 }
 
-#searchUserSection form .form__input-container input.search-param,
-#searchUserSection form .form__input-container input.search-value,
-#searchUserSection form .form__input-container select#searchRole {
-    min-width: 196px;
-    width: 196px;
-}
-
 #searchUserSection form .form__btns button {
     margin: 8px 0 0;
+}
+
+@media only screen and (min-width: 640px) {
+    /* Além do header que já está nessa media query */
+
+    #searchUserSection {
+        max-height: 80px;
+    }
+
+    #searchUserSection form {
+        align-items: center;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        min-height: 45px;
+    }
+
+    #searchUserSection form .form__input-container {
+        margin-right: 16px;
+        margin-bottom: 0;
+    }
+
+    #searchUserSection form .form__input-container input.search-param,
+    #searchUserSection form .form__input-container input.search-value,
+    #searchUserSection form .form__input-container select#searchRole {
+        min-width: 196px;
+        width: 196px;
+    }
 }
 ```
