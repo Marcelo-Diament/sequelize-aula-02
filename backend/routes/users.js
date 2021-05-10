@@ -3,6 +3,7 @@ const express = require('express'),
   controller = require('../controllers/users')
 
 router.post('/search/:searchParam/:searchValue', controller.search)
+router.get('/search/:searchParam/:searchValue', controller.search)
 router.get('/add', controller.addUser)
 router.post('/:id/delete', controller.delete)
 router.get('/:id', controller.index)

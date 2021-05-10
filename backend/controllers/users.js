@@ -2,9 +2,18 @@ const Sequelize = require('sequelize'),
   { Usuario } = require('../models'),
   { Op } = Sequelize
 
+const orderResults = (orderByParam = 'id_ASC') => {
+  const orderParam = orderByParam.split('_')[0],
+    orderDirection = orderByParam.split('_')[1]
+  return [[orderParam, orderDirection]]
+}
+
 const controller = {
   list: async (req, res, next) => {
-    const users = await Usuario.findAll()
+    const { orderBy } = await req.query
+    const users = await Usuario.findAll({
+      order: orderResults(orderBy)
+    })
     res.render('users', {
       title: 'Página de Usuários',
       subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
@@ -79,10 +88,16 @@ const controller = {
     }
   },
   search: async (req, res, next) => {
-    const { searchParam, searchValue } = await req.body,
-      whereClause = {}
+    let { searchParam, searchValue } = await req.body
+    if (!searchParam || !searchValue) searchParam = await req.params.searchParam
+    if (!searchValue) searchValue = await req.params.searchValue
+
+    let whereClause = {}
     whereClause[searchParam] = { [Op.like]: `%${searchValue}%` }
-    const users = await Usuario.findAll({ where: whereClause })
+
+    const { orderBy } = await req.query
+
+    const users = await Usuario.findAll({ where: whereClause, order: orderResults(orderBy) })
       .catch(function (err) {
         res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
       })
