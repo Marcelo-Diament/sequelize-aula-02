@@ -1923,14 +1923,32 @@ Vamos criar um _partial view_ no novo arquivo `./backend/views/partials/users/se
 </section>
 ```
 
-E vamos incluir esse formulário logo após o `header`:
+E vamos incluir esse formulário logo após o `header` :
 
-```ejs
+``` ejs
 <%- include('users/search') %>
 ```
 
-Por fim, como vamos tratá-lo com JS puro, vamos incluir nosso _script_ (ainda não criado) no `footer`:
+Por fim, como vamos tratá-lo com JS puro, vamos incluir nosso _script_ (ainda não criado) no `footer` :
 
-```ejs
+``` ejs
 <script src="/javascripts/main.js"></script>
+```
+
+Também vamos criar um estilo para a classe `hidden` , para podermos partir para o _script_ JS:
+
+``` css
+.hidden {
+    background-color: transparent;
+    color: transparent;
+    height: 0;
+    line-height: 0;
+    margin: 0;
+    max-height: 0;
+    max-width: 0;
+    opacity: 0;
+    padding: 0;
+    visibility: hidden;
+    width: 0;
+}
 ```
