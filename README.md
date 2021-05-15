@@ -2373,3 +2373,48 @@ E atualizamos nosso estilo:
     }
 }
 ```
+
+## v1.9.0 | Paginação
+
+**Branch:** [feature/pagination](https://github.com/Marcelo-Diament/sequelize-aula-02/tree/feature/pagination)
+
+Temos inúmeros usuários registrados em nosso banco. Para melhorar a experiência do usuário, vamos criar uma paginação.
+
+Precisaremos fazer algumas alterações em nosso _controller_, mas vamos começar pela _view_.
+
+### Views
+
+Vamos criar um _template_ parcial para o controle de paginação.
+
+**./backend/views/partials/users/pagination.ejs**
+
+``` ejs
+<div class="pagination">
+  <p class="current-page">Página <b><%= page %> de <%= pages %></b> | Exibindo <b><%= users.length %> de <%= total %></b> usuários encontrados</p>
+  <nav class="pages">
+    <% for(var i = 1; i <= pages; i++ ) { %>
+    <a href="?page=<%= i %>&orderBy=<%= orderParam %>_<%= orderDirection %>" class="<% if(i == page) { %>pages__btn--selected<% } else { %>pages__btn<% } %>"><%= i %></a>
+    <% } %>
+  </nav>
+</div>
+```
+
+Veja que estamos lidando com o parâmetro `orderBy` e também identificando se a página em que estamos corresponde com o item da página (para aplicarmos a classe `pages__btn--selected` ).
+
+Agora precisamos inluir essa paginação na tela de usuários. Faremos isso antes e depois da tabela de usuários, no _template_ parcial `controls` :
+
+**.backend/views/partials/users/controls.ejs**
+
+``` ejs
+<section id="searchUserSection" class="search-user">
+  <%- include('order') %>
+  <%- include('search') %>
+</section>
+<section id="listPaginationSection">
+  <% if(pages && pages > 0) { %>
+    <%- include('pagination') %>
+  <% } %>
+</section>
+```
+
+Nesse momento ocorrerá um erro no _front_ - não se preocupe. Isso ocorre pois ainda não estamos enviando a propriedade `pages` para a _view_.
