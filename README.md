@@ -2418,3 +2418,102 @@ Agora precisamos inluir essa paginação na tela de usuários. Faremos isso ante
 ```
 
 Nesse momento ocorrerá um erro no _front_ - não se preocupe. Isso ocorre pois ainda não estamos enviando a propriedade `pages` para a _view_.
+
+### Controller e o método `findAndCountAll()`
+
+O método `findAndCountAll()` é bem semelhante ao `findAll()` . Mas ele nos traz mais algumas informações (o `count` - total de registros retornados - e `rows` - o número de registros trazidos). Mas... como assim? Qual a diferença entre `count` e `rows` ?
+
+Nós temos mais dois atributos - `limit` e `offset` . O `limit` define quantos registros serão retornados em cada `row` . E o `offset` diz a partir de qual índice os registros serão retornados (ex.: `limit` = 10 e `offset` = 4 | receberemos do quinto ao décimo quarto registro, considerando que o primeiro índice é zero).
+
+Então definiremos o `limit` no próprio código (poderia ser dinâmico também) e o `offset` será o valor do índice página atual menos 1 vezes o limit. Para ficar mais claro:
+
+* Se estivermos na página 1 e o `limit` for igual a 10, o `offset` deverá ser 0 (mostraremos os usuários do índice 0 ao 9): `(1 - 1) * 10 = 0`.
+
+* Se estivermos na página 2 e o `limit` for igual a 10, o `offset` deverá ser 10 (mostraremos os usuários do índice 10 ao 19): `(2 - 1) * 10 = 10`.
+
+* Se estivermos na página 3 e o `limit` for igual a 10, o `offset` deverá ser 20 (mostraremos os usuários do índice 20 ao 29): `(3 - 1) * 10 = 20`.
+
+E assim por diante. Portanto, o `count` (chamaremos de `total` ) é o número total de registros. E `rows` corresponde aos registros dentro do `limit` considerando o `offset` (ex.: usuários de índice 0 ao 9).
+
+Outro ponto importante: para passarmos o número total de páginas, usaremos uma função bem simples: `Math.ceil(total / limit)` . Basicamente estamos dividindo o número total de registros pelo número de registros exibidos a cada 'página' (paginação). E o trecho `Math.ceil` serve para arredondarmos para cima o resultado dessa divisão. Ou seja, se tivermos 35 usuários com `limit` igual a 10, teremos 4 páginas ( `35/10 = 3.5` , com a função `Math.ceil()` teremos 4 como retorno - 4 páginas para exibirmos 35 usuários de 10 em 10).
+
+Vamos ver isso na prática!
+
+**./backend/controllers/users.js - método list**
+
+``` js
+list: async (req, res, next) => {
+    const {
+        page = 1, limit = 10, orderBy
+    } = await req.query,
+        order = orderResults(orderBy)
+    const {
+        count: total,
+        rows: users
+    } = await Usuario.findAndCountAll({
+        order,
+        limit,
+        offset: (page - 1) * limit
+    })
+    res.render('users', {
+        title: 'Página de Usuários',
+        subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
+        users,
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        orderParam: order[0][0],
+        orderDirection: order[0][1]
+    })
+}
+```
+
+**./backend/controllers/users.js - método search**
+
+``` js
+search: async (req, res, next) => {
+    let {
+        searchParam,
+        searchValue
+    } = await req.body
+    if (!searchParam || !searchValue) searchParam = await req.params.searchParam
+    if (!searchValue) searchValue = await req.params.searchValue
+
+    let whereClause = {}
+    whereClause[searchParam] = {
+        [Op.like]: `%${searchValue}%`
+    }
+
+    const {
+        page = 1, limit = 10, orderBy
+    } = await req.query,
+        order = orderResults(orderBy)
+
+    const {
+        count: total,
+        rows: users
+    } = await Usuario.findAndCountAll({
+            where: whereClause,
+            order,
+            limit,
+            offset: (page - 1) * limit
+        })
+        .catch(function(err) {
+            res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
+        })
+    if (users) {
+        res.render('users', {
+            title: 'Página de Resultado de Usuários',
+            subtitle: 'Confira a seguir os usuários encontrados em nosso banco de dados',
+            users,
+            total,
+            page,
+            pages: Math.ceil(total / limit),
+            orderParam: order[0][0],
+            orderDirection: order[0][1]
+        })
+    } else {
+        res.status(500).send(`Ops... houve algum erro em nossa busca`)
+    }
+}
+```
