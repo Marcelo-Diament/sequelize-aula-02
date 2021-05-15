@@ -10,14 +10,22 @@ const orderResults = (orderByParam = 'id_ASC') => {
 
 const controller = {
   list: async (req, res, next) => {
-    const { orderBy } = await req.query
-    const users = await Usuario.findAll({
-      order: orderResults(orderBy)
+    const { page = 1, limit = 10, orderBy } = await req.query,
+      order = orderResults(orderBy)
+    const { count: total, rows: users } = await Usuario.findAndCountAll({
+      order,
+      limit,
+      offset: (page - 1) * limit
     })
     res.render('users', {
       title: 'Página de Usuários',
       subtitle: 'Confira a seguir os usuários cadastrados em nosso banco de dados',
-      users
+      users,
+      total,
+      page,
+      pages: Math.ceil(total / limit),
+      orderParam: order[0][0],
+      orderDirection: order[0][1]
     })
   },
   index: async (req, res, next) => {
@@ -95,9 +103,15 @@ const controller = {
     let whereClause = {}
     whereClause[searchParam] = { [Op.like]: `%${searchValue}%` }
 
-    const { orderBy } = await req.query
+    const { page = 1, limit = 10, orderBy } = await req.query,
+      order = orderResults(orderBy)
 
-    const users = await Usuario.findAll({ where: whereClause, order: orderResults(orderBy) })
+    const { count: total, rows: users } = await Usuario.findAndCountAll({
+      where: whereClause,
+      order,
+      limit,
+      offset: (page - 1) * limit
+    })
       .catch(function (err) {
         res.status(400).send(`<main><h1>Ops... por favor, verifique sua busca.</h1><div><b>Erro 400 | Bad Request: </b><pre>${err}</pre></div></main>`)
       })
@@ -105,7 +119,12 @@ const controller = {
       res.render('users', {
         title: 'Página de Resultado de Usuários',
         subtitle: 'Confira a seguir os usuários encontrados em nosso banco de dados',
-        users
+        users,
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        orderParam: order[0][0],
+        orderDirection: order[0][1]
       })
     } else {
       res.status(500).send(`Ops... houve algum erro em nossa busca`)
