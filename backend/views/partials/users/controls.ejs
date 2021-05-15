@@ -2,3 +2,8 @@
   <%- include('order') %>
   <%- include('search') %>
 </section>
+<section id="listPaginationSection">
+  <% if(pages && pages > 0) { %>
+    <%- include('pagination') %>
+  <% } %>
+</section>

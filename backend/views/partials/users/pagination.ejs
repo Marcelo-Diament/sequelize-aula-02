@@ -1,0 +1,8 @@
+<div class="pagination">
+  <p class="current-page">Página <b><%= page %> de <%= pages %></b> | Exibindo <b><%= users.length %> de <%= total %></b> usuários encontrados</p>
+  <nav class="pages">
+    <% for(var i = 1; i <= pages; i++ ) { %>
+    <a href="?page=<%= i %>&orderBy=<%= orderParam %>_<%= orderDirection %>" class="<% if(i == page) { %>pages__btn--selected<% } else { %>pages__btn<% } %>"><%= i %></a>
+    <% } %>
+  </nav>
+</div>
