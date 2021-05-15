@@ -2517,3 +2517,44 @@ search: async (req, res, next) => {
     }
 }
 ```
+
+### Estilo
+
+E agora só precisamos ajustar nosso estilo!
+
+``` css
+#listPaginationSection {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+#listPaginationSection .current-page {
+    margin: 8px auto 8px 0;
+}
+
+#listPaginationSection .pages {
+    margin: 8px auto;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#listPaginationSection .pages__btn {
+    background-color: var(--branco);
+    border: 1px solid var(--azul);
+    color: var(--azul);
+    margin-right: 4px;
+    margin-top: 8px;
+    padding: 4px 8px;
+}
+
+.pages__btn--selected {
+    background-color: var(--azul);
+    border: 1px solid var(--azul);
+    color: var(--branco);
+    margin-right: 4px;
+    margin-top: 8px;
+    padding: 4px 8px;
+}
+```
