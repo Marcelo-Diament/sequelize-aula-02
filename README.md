@@ -2563,11 +2563,12 @@ E agora só precisamos ajustar nosso estilo!
 
 Na _view_ da nossa página principal existe um _bug_: não recebemos a propriedade `pages` na _view_ `partials/users/controls.ejs` - isso gera uma quebra no nosso _teplate_ e retorna um erro.
 
-Isso acontece pois no método `index` (_controller_ de usuários) da rota 'raiz' nós chamamos a _view_ `index` que, por sua vez, chama a _view_ `header` , que inclui a _view_ `controls` . Para corrigirmos isso, usaremos o `local` , que nos dá acesso às propriedades recebidas. Portanto, faremos uma condição para checarmos a propriedade `pages` :
+Isso acontece pois no método `index` (_controller_ de usuários) da rota 'raiz' nós chamamos a _view_ `index` que, por sua vez, chama a _view_ `header` , que inclui a _view_ `controls` . Para corrigirmos isso, usaremos o `locals` , que nos dá acesso às propriedades recebidas. Portanto, faremos uma condição para checarmos a propriedade `pages` :
+
+**./backend\views\partials\header.ejs**
 
 ``` ejs
 <% if (locals.pages) { %>
 <%- include('users/controls') %>
 <%}%>
 ```
-
