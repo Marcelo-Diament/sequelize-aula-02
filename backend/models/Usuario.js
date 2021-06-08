@@ -24,6 +24,10 @@ module.exports = (sequelize, DataType) => {
     id_funcao: {
       type: DataType.INTEGER,
       allowNull: false
+    },
+    avatar: {
+      type: DataType.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'usuarios',

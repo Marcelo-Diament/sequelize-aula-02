@@ -1,5 +1,5 @@
 <section id="addUserSection" class="register-user">
-  <form action="/users" method="POST" class="form">
+  <form action="/users" method="POST" class="form" enctype="multipart/form-data">
     <div class="form__input-container">
       <label for="nome">Nome</label>
       <input type="text" name="nome" id="nome" required placeholder="Benedito">
@@ -15,6 +15,11 @@
     <div class="form__input-container">
       <label for="senha">Senha</label>
       <input type="password" name="senha" id="senha" required placeholder="Senha123">
+    </div>
+    <div class="form__input-container">
+      <label for="avatar">Avatar</label>
+      <input type="file" id="avatar" name="avatar" aria-describedby="imageHelp">
+      <small>Insira arquivos .jpg ou .png (máx. 4MB).</small>
     </div>
     <div class="form__btns">
       <button>Adicionar Usuário</button>

@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize'),
   { Usuario } = require('../models'),
-  { Op } = Sequelize
+  { Op } = Sequelize,
+  Resize = require('../Resize.js'),
+  path = require('path')
 
 const orderResults = (orderByParam = 'id_ASC') => {
   const orderParam = orderByParam.split('_')[0],
@@ -60,8 +62,21 @@ const controller = {
       email,
       senha
     } = req.body,
-      id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1,
-      user = await Usuario.create({ nome, sobrenome, email, senha, id_funcao })
+      id_funcao = email.indexOf('@diament.com.br') === -1 ? 2 : 1
+
+    const imagePath = path.join(__dirname, '../public/images')
+
+    const fileUpload = new Resize(imagePath)
+
+    let avatar = 'avatar-placeholder.png'
+
+    if (req.file) {
+      // Caso a condição acima seja falsa, salvamos a imagem na pasta definida
+      const filename = await fileUpload.save(req.file.buffer)
+      avatar = filename
+    }
+
+    const user = await Usuario.create({ nome, sobrenome, email, senha, id_funcao, avatar })
     if (user) {
       res.redirect('/users')
     } else {

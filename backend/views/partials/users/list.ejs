@@ -3,6 +3,7 @@
     <thead>
       <tr>
         <th>ID</th>
+        <th>Avatar</th>
         <th>Nome</th>
         <th>Sobrenome</th>
         <th>Email</th>
@@ -17,6 +18,11 @@
       <% for(let user of users) { %>
       <tr id="user<%= user.id %>" class="user">
         <td class="user__id" data-title="ID"><%=user.id%></td>
+        <% if(user.avatar !== null) { %>
+        <td class="user__avatar" data-title="Avatar"><img src="images/<%= user.avatar %>" height="60" width="60" /></td>
+        <% } else { %>
+        <td class="user__avatar" data-title="Avatar"><img src="images/avatar-placeholder.png" height="60" width="60" /></td>
+        <% } %>
         <td class="user__name" data-title="Nome"><%= user.nome %></td>
         <td class="user__lastname" data-title="Sobrenome"><%= user.sobrenome %></td>
         <td class="user__email" data-title="Email"><%= user.email %></td>
